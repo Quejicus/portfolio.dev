@@ -1,0 +1,43 @@
+---
+const personalImageAlt = "Jesús";
+---
+
+<article
+    class="flex flex-col items-center justify-center gap-8 text-gray-300 md:flex-row"
+>
+    <div
+        class="[&>p]:mb-4 [&>p>strong]:text-yellow-100 [&>p>strong]:font-normal [&>p>strong]:font-mono text-pretty order-2 md:order-1"
+    >
+        <p>
+            My name is Jesús. I am a cheerful, empathetic, fun, and sociable
+            person. I have a knack for <strong
+                >connecting with others, great adaptability, resistance to
+                pressure or stress and quite mental agility</strong
+            >.
+        </p>
+
+        <p>
+            I am that versatile profile, <strong>
+                adaptable and quick to learn, perceptive, pragmatic, who swiftly
+                identifies problems and proposes different innovative solutions</strong
+            >. That hybrid profile between logical reasoning and creativity.
+        </p>
+
+        <p>
+            Among my hobbies, I have always loved <strong>
+                playing chess, doing puzzles, learning about programming</strong
+            >, technology, and seeking activities that take me out of my comfort
+            zone (such as volunteering, traveling abroad, and discovering new
+            cultures).
+        </p>
+    </div>
+
+    <img
+        width="200"
+        height="200"
+        src="/src/img/profile_pic.webp"
+        alt={personalImageAlt}
+        class="order-1 object-cover w-64 h-full p-1 md:order-2 rotate-3 lg:p-2 lg:w-64 aspect-square rounded-2xl bg-yellow-500/5 ring-1 ring-white/20"
+        style="object-position: 50% 50%"
+    />
+</article>

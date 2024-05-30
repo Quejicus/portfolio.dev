@@ -1,0 +1,89 @@
+---
+import GitHubIcon from "../icons/GitHub.astro";
+import AstroIcon from "../icons/AstroIcon.astro";
+import PythonIcon from "../icons/Python.astro";
+import TailwindCSSIcon from "../icons/TailwindCSS.astro";
+import LinkButton from "../components/LinkButton.astro";
+
+const TAGS = {
+    Astro: {
+        name: "Astro",
+        class: "bg-black text-white",
+        icon: AstroIcon,
+    },
+    Tailwind: {
+        name: "Tailwind CSS",
+        class: "bg-[#003159] text-white",
+        icon: TailwindCSSIcon,
+    },
+    Python: {
+        name: "Python",
+        class: "bg-[#1E415E] text-white",
+        icon: PythonIcon,
+    },
+};
+const PROJECTS = [
+    {
+        title: "Personal Web Portfolio",
+        description:
+            "Personal web portfolio created from scratch using Astro, HTML, CSS and TailwindCSS.",
+        github: "https://github.com/Quejicus/portfolio.dev",
+        image: "/projects/portfolio_screenshot.webp",
+        tags: [TAGS.Astro, TAGS.Tailwind],
+    },
+    {
+        title: "Optimizing component selection for a computer given a budget",
+        description:
+            "Data Science project for optimizing the selection of desktop computer components within a set of constraints. I worked in Python, obtained data through web scraping, pre-processed it, and trained an optimization model using genetic algorithms. I developed a web application using Streamlit.",
+        image: "/projects/optimizing_project.webp",
+        tags: [TAGS.Python],
+    },
+];
+---
+
+<div class="flex flex-col gap-y-16">
+    {
+        PROJECTS.map(({ image, title, description, tags, github }) => (
+            <article class="flex flex-col space-x-0 space-y-8 group md:flex-row md:space-x-8 md:space-y-0">
+                <div class="w-full md:w-1/2">
+                    <div class="relative flex flex-col items-center col-span-6 row-span-5 gap-8 transition duration-500 ease-in-out transform shadow-xl overflow-clip rounded-xl sm:rounded-xl md:group-hover:-translate-y-1 md:group-hover:shadow-2xl lg:border lg:border-gray-800 lg:hover:border-gray-700 lg:hover:bg-gray-800/50">
+                        <img
+                            alt="Recién llegado vs 5 años en Nueva Zelanda"
+                            class="object-cover object-top w-full h-56 transition duration-500 sm:h-full md:scale-110 md:group-hover:scale-105"
+                            loading="lazy"
+                            src={image}
+                        />
+                    </div>
+                </div>
+
+                <div class="w-full md:w-1/2 md:max-w-lg">
+                    <h3 class="text-2xl font-bold text-gray-100">{title}</h3>
+                    <div class="flex flex-wrap mt-2">
+                        <ul class="flex flex-row mb-2 gap-x-2">
+                            {tags.map((tag) => (
+                                <li>
+                                    <span
+                                        class={`flex gap-x-2 rounded-full text-xs ${tag.class} py-1 px-2 `}
+                                    >
+                                        <tag.icon class="size-4" />
+                                        {tag.name}
+                                    </span>
+                                </li>
+                            ))}
+                        </ul>
+
+                        <div class="mt-2 text-gray-400">{description}</div>
+                        <footer class="flex items-end justify-start mt-4 gap-x-4">
+                            {github && (
+                                <LinkButton href={github}>
+                                    <GitHubIcon class="size-6" />
+                                    Code
+                                </LinkButton>
+                            )}
+                        </footer>
+                    </div>
+                </div>
+            </article>
+        ))
+    }
+</div>

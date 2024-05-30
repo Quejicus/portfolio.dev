@@ -1,0 +1,49 @@
+---
+const personalImageAlt = "Jesús";
+import Badge from "./Badge.astro";
+import LinkedInIcon from "../icons/LinkedIn.astro";
+import GitHubIcon from "../icons/GitHub.astro";
+import MailIcon from "../icons/Mail.astro";
+import Social from "./Social.astro";
+---
+
+<div class="max-w-xl">
+    <div class="flex gap-4 mb-4">
+        <img
+            class="rounded-full shadow-lg size-16"
+            src="/src/img/profile_pic.webp"
+            alt={personalImageAlt}
+        />
+        <a
+            href="https://www.linkedin.com/in/jesus-data-engineer"
+            target="_blank"
+            rel="noopener"
+            class="flex items-center transition md:justify-center md:hover:scale-105"
+        >
+            <Badge>Available for hire</Badge>
+        </a>
+    </div>
+    <h1
+        class="text-white text-3xl md:text-4xl lg:text-5xl font-bold flex flex-row gap-x-4 pb-6 lg:pb-10"
+    >
+        Hi, I'm Jesús
+    </h1>
+    <p
+        class="mt-6 text-xl [&>strong]:text-yellow-200 [&>strong]:font-semibold text-gray-300"
+    >
+        +2 years experience.<strong>
+            Data Engineer & Python Developer.
+        </strong>From Spain. Learning every day.
+    </p>
+    <nav class="flex gap-4 mt-8 flex-wrap">
+        <Social href="https://www.linkedin.com/in/jesus-data-engineer">
+            <LinkedInIcon class="size-4 lg:size-6" />LinkedIn
+            <Social href="https://github.com/Quejicus">
+                <GitHubIcon class="size-4 lg:size-6" />GitHub</Social
+            >
+            <Social href="mailto:jesusmugo91@gmail.com">
+                <MailIcon class="size-4 lg:size-6" />Contact me</Social
+            >
+        </Social>
+    </nav>
+</div>

@@ -1,0 +1,30 @@
+---
+import ExperienceItem from "./ExperienceItem.astro";
+
+const EXPERIENCE = [
+    {
+        date: "May 2023 - acual",
+        title: "Data Engineer",
+        company: "NTT DATA Europe and Latam",
+        description:
+            "Developed ETL pipelines using Pyspark and HBase in several projects for Consejería de Medioambiente de la Junta de Andalucía. Migrated several ETL pipelines from Pentaho Data Integration to Apache Airflow in several projects for Cabildo de Tenerife.",
+    },
+    {
+        date: "June 2022 - December 2022",
+        title: "Business Intelligence Developer",
+        company: "cdmon",
+        description:
+            "Developed and maintained ETL pipelines using Apache Airflow for internal projects. Built several insight reports and dashboards using Apache Superset for internal departments. Developed internal APIs, refactored and improved legacy code.",
+    },
+];
+---
+
+<ol class="relative mt-16">
+    {
+        EXPERIENCE.map((experience) => (
+            <li class="">
+                <ExperienceItem {...experience} />
+            </li>
+        ))
+    }
+</ol>
