@@ -6,107 +6,154 @@ import Footer from "../components/Footer.astro";
 import { ViewTransitions } from "astro:transitions";
 
 interface Props {
-	title: string;
-	description: string;
+  title: string;
+  description: string;
 }
 
-const { title, description } = Astro.props;
+const { title, description } = Astro.props as Props;
 ---
 
 <!doctype html>
-<html lang="es">
-	<head>
-		<meta charset="UTF-8" />
-		<meta name="description" content={description} />
-		<meta name="viewport" content="width=device-width" />
-		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-		<meta name="generator" content={Astro.generator} />
-		<title>{title}</title>
-		<ViewTransitions />
-	</head>
-	<body class="relative text-white">
-		<div
-			class="absolute inset-0 -z-10 h-full w-full items-center px-5 py-24 [background:radial-gradient(125%_125%_at_50%_10%,#000_40%,#63e_100%)]"
-		>
-		</div>
-		<Header />
-		<slot />
-		<Footer />
-		<style is:global>
-			:root {
-				color-scheme: light dark;
-			}
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="description" content={description} />
+    <meta name="viewport" content="width=device-width" />
+    <link rel="canonical" href="https://jesus-dataengineer-portfolio.netlify.app/" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <meta name="generator" content={Astro.generator} />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://jesus-dataengineer-portfolio.netlify.app/" />
+    <meta property="og:image" content="https://jesus-dataengineer-portfolio.netlify.app/img/profile_pic.webp" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={title} />
+    <meta name="twitter:description" content={description} />
+    <meta name="twitter:image" content="https://jesus-dataengineer-portfolio.netlify.app/img/profile_pic.webp" />
+    <title>{title}</title>
+    <ViewTransitions />
+  </head>
+  <body>
+    <div aria-hidden="true" class="page-atmosphere">
+      <div class="page-glow page-glow-top"></div>
+      <div class="page-glow page-glow-mid"></div>
+      <div class="page-grid"></div>
+    </div>
+    <Header />
+    <slot />
+    <Footer />
 
-			html {
-				font-family: "Onest Variable", system-ui, sans-serif;
-				scroll-behavior: smooth;
-			}
+    <style is:global>
+      :root {
+        --bg: #070d17;
+        --surface: #111d2c;
+        --text: #e5ecf6;
+        --text-muted: #8fa3bd;
+        --accent: #7ee9f8;
+        --border: rgba(148, 163, 184, 0.2);
+      }
 
-			body {
-				color: rgba(17, 17, 17, 0.9);
-				display: flex;
-				flex-direction: column;
-				min-height: 100vh;
-				overscroll-behavior: none;
-			}
+      * {
+        box-sizing: border-box;
+      }
 
-			@media (prefers-reduced-motion: reduce) {
-				html {
-					scroll-behavior: auto;
-				}
-			}
+      html {
+        font-family: "Onest Variable", "Avenir Next", "Segoe UI", sans-serif;
+        scroll-behavior: smooth;
+      }
 
-			@media (prefers-color-scheme: dark) {
-				body {
-					color: rgba(255, 255, 255, 0.9);
-				}
-			}
+      body {
+        margin: 0;
+        min-height: 100vh;
+        color: var(--text);
+        background: radial-gradient(circle at 82% -10%, #112949 0%, rgba(17, 41, 73, 0) 40%),
+          radial-gradient(circle at 0% 25%, #163558 0%, rgba(22, 53, 88, 0) 42%),
+          var(--bg);
+        position: relative;
+      }
 
-			#header-nav {
-				animation: blur linear both 0.5s;
-				animation-timeline: scroll();
-				animation-range: 0 500px;
-			}
+      .page-atmosphere {
+        pointer-events: none;
+        position: fixed;
+        inset: 0;
+        z-index: -1;
+        overflow: hidden;
+      }
 
-			@keyframes blur {
-				to {
-					backdrop-filter: blur(20px);
-					border-width: 1px;
-					border-color: rgba(0, 0, 0);
-					padding: 0.25rem 0.75rem;
-					display: flex;
-					flex-direction: row;
-					align-items: center;
-					background-color: rgb(229, 229, 229);
-					border-radius: 9999px;
-				}
-			}
+      .page-glow {
+        position: absolute;
+        border-radius: 9999px;
+        filter: blur(88px);
+      }
 
-			@media (prefers-color-scheme: dark) {
-				@keyframes blur {
-					from {
-						border: 0px;
-					}
-					to {
-						box-shadow:
-							0px 5px 50px -5px rgba(0, 0, 0, 0.1),
-							0px 0px 0 1px rgba(0, 0, 0, 0.3);
-						background: rgba(0, 0, 0, 0.3);
-						backdrop-filter: blur(20px);
-						border-width: 1px;
-						border-color: rgba(0, 0, 0);
-						padding-left: 0.75rem;
-						padding-right: 0.75rem;
-						padding-top: 0.25rem;
-						padding-bottom: 0.25rem;
-						display: flex;
-						flex-direction: row;
-						align-items: center;
-						background-color: rgba(0, 0, 0, 0.3);
-						border-radius: 9999px;
-					}
-				}
-			}
-		</style>
-	</body>
+      .page-glow-top {
+        width: 28rem;
+        height: 28rem;
+        top: -8rem;
+        right: -7rem;
+        background: rgba(45, 212, 191, 0.16);
+      }
+
+      .page-glow-mid {
+        width: 22rem;
+        height: 22rem;
+        left: -8rem;
+        top: 24%;
+        background: rgba(56, 189, 248, 0.12);
+      }
+
+      .page-grid {
+        position: absolute;
+        inset: 0;
+        background-image:
+          linear-gradient(rgba(148, 163, 184, 0.08) 1px, transparent 1px),
+          linear-gradient(90deg, rgba(148, 163, 184, 0.08) 1px, transparent 1px);
+        background-size: 42px 42px;
+        mask-image: radial-gradient(ellipse at center, black 25%, transparent 82%);
+      }
+
+      .section-kicker {
+        margin: 0;
+        font-size: 0.72rem;
+        line-height: 1.4;
+        letter-spacing: 0.2em;
+        text-transform: uppercase;
+        color: #9deaf6;
+        font-weight: 600;
+      }
+
+      .section-title {
+        margin: 0.5rem 0 0;
+        font-size: clamp(1.75rem, 2.5vw, 2.4rem);
+        line-height: 1.2;
+        font-weight: 650;
+        color: var(--text);
+      }
+
+      .section-title-icon {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.55rem;
+      }
+
+      .section-description {
+        margin: 0.9rem 0 1.5rem;
+        max-width: 58ch;
+        color: var(--text-muted);
+        line-height: 1.65;
+      }
+
+      @media (prefers-reduced-motion: reduce) {
+        html {
+          scroll-behavior: auto;
+        }
+
+        * {
+          animation: none !important;
+          transition: none !important;
+        }
+      }
+    </style>
+  </body>
 </html>

@@ -8,45 +8,71 @@ import Briefcase from "../components/Briefcase.astro";
 import CodeIcon from "../icons/Code.astro";
 import Profile from "../components/Profile.astro";
 import AboutMe from "../components/AboutMe.astro";
-import About from "../icons/About.astro";
+import AboutIcon from "../icons/About.astro";
+import FocusAreas from "../components/FocusAreas.astro";
+import FeaturedCaseStudy from "../components/FeaturedCaseStudy.astro";
+import ContactPanel from "../components/ContactPanel.astro";
+import { SECTION_ID, SITE_CONTENT } from "../data/portfolio";
 ---
 
-<Layout
-	title="Portfolio Jesús - Data Engineer & Python Developer"
-	description="Hire me to solve complex data challenges and develop robust data solutions"
->
-	<main class="px-4">
-		<SectionContainer class="py-16 md:py-36">
-			<Profile><slot /></Profile>
-		</SectionContainer>
-		<div class="space-y-24">
-			<SectionContainer id="experience">
-				<h2
-					class="flex items-center mb-6 text-3xl font-semibold gap-x-3 text-white"
-				>
-					<Briefcase class="size-6" />
-					Work Experience
-				</h2>
-				<Experience /></SectionContainer
-			>
-			<SectionContainer id="projects">
-				<h2
-					class="flex items-center mb-6 text-3xl font-semibold gap-x-3 text-white"
-				>
-					<CodeIcon class="size-7" />
-					Projects
-				</h2>
-				<Projects />
-			</SectionContainer>
-			<SectionContainer id="about-me">
-				<h2
-					class="flex items-center mb-6 text-3xl font-semibold gap-x-3 text-white"
-				>
-					<About class="size-6" />
-					About me
-				</h2>
-				<AboutMe />
-			</SectionContainer>
-		</div>
-	</main>
+<Layout title={SITE_CONTENT.metaTitle} description={SITE_CONTENT.metaDescription}>
+  <main class="pb-10 pt-28 md:pt-32">
+    <SectionContainer id={SECTION_ID.HOME} class="py-8 md:py-14">
+      <Profile />
+    </SectionContainer>
+
+    <div class="space-y-14 md:space-y-20">
+      <SectionContainer id={SECTION_ID.FOCUS}>
+        <p class="section-kicker">Current Focus</p>
+        <h2 class="section-title">Engineering Domains I Build In</h2>
+        <p class="section-description">
+          My work combines data pipeline reliability with agentic workflow experimentation and production delivery practices.
+        </p>
+        <FocusAreas />
+      </SectionContainer>
+
+      <SectionContainer id={SECTION_ID.CASE_STUDY}>
+        <p class="section-kicker">Recent Development</p>
+        <h2 class="section-title">Featured Agentic Project</h2>
+        <p class="section-description">
+          This is the latest product I launched, focused on clarity, trust, and practical user value.
+        </p>
+        <FeaturedCaseStudy />
+      </SectionContainer>
+
+      <SectionContainer id={SECTION_ID.EXPERIENCE}>
+        <h2 class="section-title section-title-icon">
+          <Briefcase class="size-5 text-cyan-200" />
+          Experience
+        </h2>
+        <p class="section-description">
+          Roles where I improved data reliability, orchestration quality, and delivery speed.
+        </p>
+        <Experience />
+      </SectionContainer>
+
+      <SectionContainer id={SECTION_ID.PROJECTS}>
+        <h2 class="section-title section-title-icon">
+          <CodeIcon class="size-5 text-cyan-200" />
+          Selected Projects
+        </h2>
+        <p class="section-description">
+          Additional technical work across web engineering and applied optimization.
+        </p>
+        <Projects />
+      </SectionContainer>
+
+      <SectionContainer id={SECTION_ID.ABOUT}>
+        <h2 class="section-title section-title-icon">
+          <AboutIcon class="size-5 text-cyan-200" />
+          About
+        </h2>
+        <AboutMe />
+      </SectionContainer>
+
+      <SectionContainer id={SECTION_ID.CONTACT}>
+        <ContactPanel />
+      </SectionContainer>
+    </div>
+  </main>
 </Layout>

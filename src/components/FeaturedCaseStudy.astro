@@ -1,0 +1,130 @@
+---
+import LinkIcon from "../icons/Link.astro";
+import GitHubIcon from "../icons/GitHub.astro";
+import {
+  PROJECT_LINK_KIND,
+  SITE_CONTENT,
+} from "../data/portfolio";
+
+const caseStudy = SITE_CONTENT.featuredCaseStudy;
+const primaryLiveLink = caseStudy.links.find(
+  (link) => link.kind === PROJECT_LINK_KIND.LIVE,
+);
+---
+
+<article class="overflow-hidden rounded-3xl border border-white/10 bg-[#0d1624] shadow-[0_22px_48px_rgba(0,0,0,0.42)]">
+  <div class="grid gap-0 lg:grid-cols-[1.12fr_0.88fr]">
+    <div class="p-6 md:p-8">
+      <p class="text-xs font-semibold uppercase tracking-[0.2em] text-cyan-200">Featured Case Study</p>
+      <h3 class="mt-3 text-2xl font-semibold text-slate-100 md:text-3xl">{caseStudy.title}</h3>
+      <p class="mt-2 text-sm uppercase tracking-[0.16em] text-slate-400">{caseStudy.subtitle}</p>
+
+      <p class="mt-5 text-sm leading-relaxed text-slate-300 md:text-base">{caseStudy.summary}</p>
+
+      <div class="mt-6 grid gap-4 md:grid-cols-2">
+        <div class="rounded-2xl border border-white/10 bg-white/5 p-4">
+          <p class="text-xs uppercase tracking-[0.16em] text-slate-400">Challenge</p>
+          <p class="mt-2 text-sm leading-relaxed text-slate-200">{caseStudy.challenge}</p>
+        </div>
+        <div class="rounded-2xl border border-white/10 bg-white/5 p-4">
+          <p class="text-xs uppercase tracking-[0.16em] text-slate-400">Solution</p>
+          <p class="mt-2 text-sm leading-relaxed text-slate-200">{caseStudy.solution}</p>
+        </div>
+      </div>
+
+      <ul class="mt-5 space-y-2 text-sm text-slate-200">
+        {caseStudy.outcomes.map((outcome) => (
+          <li class="flex gap-2">
+            <span class="mt-[0.42rem] size-1.5 rounded-full bg-cyan-300/85" aria-hidden="true"></span>
+            <span>{outcome}</span>
+          </li>
+        ))}
+      </ul>
+
+      <div class="mt-6 flex flex-wrap gap-2">
+        {caseStudy.stack.map((item) => (
+          <span class="rounded-full border border-cyan-300/30 bg-cyan-300/10 px-3 py-1 text-xs font-medium text-cyan-100">
+            {item}
+          </span>
+        ))}
+      </div>
+
+      <div class="mt-7 flex flex-wrap items-center gap-3">
+        {
+          caseStudy.links.map((link) => (
+            <a
+              href={link.href}
+              target="_blank"
+              rel="noopener noreferrer"
+              class="inline-flex items-center gap-2 rounded-xl bg-cyan-300 px-4 py-2.5 text-sm font-semibold text-slate-950 transition hover:bg-cyan-200"
+            >
+              {link.kind === PROJECT_LINK_KIND.CODE ? <GitHubIcon class="size-4" /> : <LinkIcon class="size-4" />}
+              {link.label}
+            </a>
+          ))
+        }
+      </div>
+    </div>
+
+    <aside class="border-t border-white/10 bg-[linear-gradient(165deg,#111f34_0%,#0a1320_95%)] p-6 lg:border-l lg:border-t-0 md:p-8">
+      <article class="rounded-2xl border border-cyan-300/25 bg-[radial-gradient(circle_at_20%_10%,rgba(34,211,238,0.16),transparent_55%),linear-gradient(160deg,#0f1a2c_0%,#0a1320_100%)] p-4">
+        <figure class="overflow-hidden rounded-xl border border-white/10 bg-[#0a1320]">
+          <img
+            src={caseStudy.image}
+            alt={`${caseStudy.title} screenshot`}
+            class="aspect-[16/9] w-full object-cover object-top"
+            loading="lazy"
+          />
+        </figure>
+
+        <div class="mt-4 flex items-center justify-between gap-3">
+          <span class="inline-flex items-center rounded-full border border-cyan-300/35 bg-cyan-300/10 px-2.5 py-1 text-[0.62rem] font-semibold uppercase tracking-[0.18em] text-cyan-100">
+            Live Product
+          </span>
+          {
+            primaryLiveLink && (
+              <a
+                href={primaryLiveLink.href}
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label={`Open ${caseStudy.title}`}
+                class="inline-flex items-center gap-1 rounded-lg border border-white/15 bg-white/5 px-2.5 py-1.5 text-xs font-medium text-slate-200 transition hover:border-cyan-300/45 hover:text-cyan-100"
+              >
+                <LinkIcon class="size-3.5" />
+                Open
+              </a>
+            )
+          }
+        </div>
+
+        <p class="mt-3 text-lg font-semibold text-slate-100">{caseStudy.title}</p>
+        {
+          primaryLiveLink ? (
+            <a
+              href={primaryLiveLink.href}
+              target="_blank"
+              rel="noopener noreferrer"
+              class="mt-1 inline-flex text-sm text-slate-300 transition hover:text-cyan-100"
+            >
+              {caseStudy.domain}
+            </a>
+          ) : (
+            <p class="mt-1 text-sm text-slate-300">{caseStudy.domain}</p>
+          )
+        }
+        <p class="mt-3 text-xs leading-relaxed text-slate-400">{caseStudy.subtitle}</p>
+      </article>
+
+      <p class="mt-5 text-xs font-semibold uppercase tracking-[0.2em] text-slate-400">Project Snapshot</p>
+      <dl class="mt-3 grid gap-3">
+        {caseStudy.metrics.map((metric) => (
+          <div class="rounded-2xl border border-white/10 bg-white/5 p-4">
+            <dt class="text-xs uppercase tracking-[0.16em] text-slate-400">{metric.label}</dt>
+            <dd class="mt-1 text-xl font-semibold text-slate-100">{metric.value}</dd>
+            <p class="mt-1 text-sm leading-relaxed text-slate-300">{metric.note}</p>
+          </div>
+        ))}
+      </dl>
+    </aside>
+  </div>
+</article>
