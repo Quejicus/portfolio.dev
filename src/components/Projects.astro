@@ -13,13 +13,13 @@ const imageByStyleClass = {
   [PROJECT_VISUAL_STYLE.DEFAULT]:
     "h-44 w-full object-cover object-top transition duration-300 group-hover:scale-[1.02]",
   [PROJECT_VISUAL_STYLE.TONED]:
-    "h-44 w-full object-contain p-5 transition duration-300 group-hover:scale-[1.02]",
+    "h-44 w-full object-cover object-center brightness-95 contrast-110 saturate-110 transition duration-300 group-hover:scale-[1.02]",
 } as const;
 
 const wrapperByStyleClass = {
-  [PROJECT_VISUAL_STYLE.DEFAULT]: "h-44 w-full bg-[#0a1320]",
+  [PROJECT_VISUAL_STYLE.DEFAULT]: "relative h-44 w-full overflow-hidden bg-[#0a1320]",
   [PROJECT_VISUAL_STYLE.TONED]:
-    "h-44 w-full bg-[radial-gradient(circle_at_20%_15%,rgba(34,211,238,0.22),transparent_50%),linear-gradient(160deg,#0a1320_0%,#102238_100%)]",
+    "relative h-44 w-full overflow-hidden bg-[linear-gradient(160deg,#081223_0%,#102238_100%)]",
 } as const;
 ---
 
@@ -34,6 +34,12 @@ const wrapperByStyleClass = {
             class={imageByStyleClass[project.visualStyle]}
             loading="lazy"
           />
+          {project.visualStyle === PROJECT_VISUAL_STYLE.TONED && (
+            <>
+              <div class="pointer-events-none absolute inset-0 bg-[linear-gradient(150deg,rgba(8,145,178,0.34),rgba(8,47,73,0.42)_45%,rgba(15,23,42,0.78))] mix-blend-multiply"></div>
+              <div class="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_16%_14%,rgba(125,211,252,0.24),transparent_48%),radial-gradient(circle_at_88%_86%,rgba(45,212,191,0.2),transparent_50%)] mix-blend-screen"></div>
+            </>
+          )}
         </div>
         <div class="flex flex-1 flex-col p-5">
           <h3 class="text-lg font-semibold text-slate-100">{project.title}</h3>
