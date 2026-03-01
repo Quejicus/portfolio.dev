@@ -201,13 +201,13 @@ export const SITE_CONTENT: SiteContent = {
       ],
     },
     {
-      title: "Agentic Systems",
+      title: "Agentic Engineering",
       description:
-        "Autonomous workflows with tool-calling agents designed for deterministic behavior and safe execution.",
+        "Production-ready software delivery using agentic engineering tools (Claude Code, OpenCode, Codex) with structured workflows, reusable skills, and quality hooks.",
       bullets: [
-        "Structured prompts and tool contracts",
-        "Multi-step agent workflow design",
-        "Reliability and fallback strategies",
+        "Tool-assisted implementation loops with explicit planning, execution, and review gates",
+        "Reusable skills and command hooks to keep outputs consistent and maintainable",
+        "Verification-first delivery with tests, build checks, and safe iteration patterns",
       ],
     },
     {
@@ -223,39 +223,43 @@ export const SITE_CONTENT: SiteContent = {
   ],
   featuredCaseStudy: {
     title: "Mi Calculadora Financiera",
-    subtitle: "Agentic financial assistant and calculator web experience",
+    subtitle:
+      "Production financial assistant experience built with agentic engineering workflows",
     summary:
-      "A production website built last month with agentic engineering practices. The goal was to create a financial calculator experience that is understandable, fast, and user-focused.",
+      "A live financial calculator platform delivered in one month using an agentic engineering workflow. Development combined human direction with Claude Code, OpenCode, and Codex to accelerate delivery while keeping production standards.",
     challenge:
-      "Translate financial concepts into a frictionless UX while preserving technical trust, clarity, and extensibility for future calculators and assistant flows.",
+      "Build a trustworthy financial UX that explains calculations clearly, supports fast iteration, and remains maintainable as new calculators and assistant flows are added.",
     solution:
-      "Implemented a modular calculator architecture, explicit calculation flows, and content framing designed to improve user confidence. Applied an agentic engineering approach to accelerate iteration with controlled quality.",
+      "Defined scoped implementation loops, used tool-assisted coding sessions for feature delivery, and enforced quality hooks for validation before release. The workflow prioritized explicit tasks, review checkpoints, and reproducible changes.",
     outcomes: [
-      "Shipped a polished public product with clear value proposition and call to action.",
-      "Reduced ambiguity in user flows with straightforward input-output interactions.",
-      "Established a reusable pattern for future decision-support tools.",
+      "Shipped a public, production-ready product from concept to launch in one month.",
+      "Improved delivery speed through agentic coding loops without sacrificing quality control.",
+      "Established a reusable workflow pattern (skills, hooks, and validation steps) for future products.",
     ],
     stack: [
       "JavaScript",
       "HTML/CSS",
+      "Claude Code",
+      "OpenCode",
+      "Codex",
+      "Agentic workflow skills and hooks",
       "SEO and content strategy",
-      "Agentic engineering workflow",
     ],
     metrics: [
       {
         label: "Delivery",
         value: "1 month",
-        note: "From concept to live launch.",
+        note: "From scoped requirements to public launch.",
       },
       {
-        label: "Product Shape",
-        value: "Live web app",
-        note: "Publicly accessible and actively usable.",
+        label: "Workflow",
+        value: "Agentic-assisted",
+        note: "Claude Code, OpenCode, and Codex used in structured implementation loops.",
       },
       {
-        label: "Engineering Model",
-        value: "Agentic-driven",
-        note: "Iterative implementation with AI workflow support.",
+        label: "Quality Controls",
+        value: "Skills + hooks",
+        note: "Reusable guidance and validation checks used before release.",
       },
     ],
     links: [
