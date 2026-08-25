@@ -115,6 +115,7 @@ export interface AboutContent {
 export interface SiteContent {
   metaTitle: string;
   metaDescription: string;
+  lastUpdated: string;
   navItems: NavItem[];
   socialLinks: ContactLink[];
   hero: HeroContent;
@@ -129,6 +130,7 @@ export const SITE_CONTENT: SiteContent = {
   metaTitle: "Jesús Muñoz González | Data & Agentic Engineer",
   metaDescription:
     "Data Engineer at NTT DATA building scalable ETL platforms and agentic AI workflows focused on reliability, observability, and delivery.",
+  lastUpdated: "August 2026",
   navItems: [
     { label: "Home", href: "#home", section: SECTION_ID.HOME },
     { label: "Focus", href: "#focus", section: SECTION_ID.FOCUS },
@@ -175,7 +177,7 @@ export const SITE_CONTENT: SiteContent = {
     summary:
       "I design and optimize data systems that scale. Today I build production ETL pipelines at NTT DATA and expand into agentic engineering with reliable tool-calling workflows.",
     experienceLabel:
-      "3+ years of professional experience in Data Engineering (since June 2022)",
+      "4+ years of professional experience in Data Engineering (since June 2022)",
     location: "Based in Spain",
     currentRole: "Data Engineer at NTT DATA Europe & LATAM",
     ctaPrimary: {

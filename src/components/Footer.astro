@@ -2,10 +2,7 @@
 import { SITE_CONTENT } from "../data/portfolio";
 
 const socialLinks = SITE_CONTENT.socialLinks;
-const lastUpdated = new Intl.DateTimeFormat("en-US", {
-  month: "long",
-  year: "numeric",
-}).format(new Date());
+const lastUpdated = SITE_CONTENT.lastUpdated;
 ---
 
 <footer id="site-footer" class="mt-16 border-t border-white/10">
@@ -15,7 +12,7 @@ const lastUpdated = new Intl.DateTimeFormat("en-US", {
       <p class="mt-2 text-sm text-slate-200 md:text-base">
         Available for Data Engineering and Agentic Engineering opportunities.
       </p>
-      <p class="mt-2 text-xs text-slate-400">Updated {lastUpdated}</p>
+      <p class="mt-2 text-xs text-slate-400">Last updated {lastUpdated}</p>
     </div>
 
     <div class="flex flex-wrap gap-2">
