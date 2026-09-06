@@ -1,124 +1,19 @@
 ---
 import { SITE_CONTENT } from "../data/portfolio";
-
-const navItems = SITE_CONTENT.navItems;
-const primaryContact = SITE_CONTENT.hero.ctaPrimary;
+interface Props { workPage?: boolean }
+const { workPage = false } = Astro.props;
+const home = Astro.url.pathname === "/";
 ---
-
-<header class="fixed top-0 left-0 right-0 z-50">
-  <div class="mx-auto mt-3 w-[min(96%,78rem)]">
-    <div
-      id="header-nav"
-      class="group flex items-center justify-between gap-3 rounded-2xl border border-white/10 bg-[#0b131f]/80 px-3 py-2 shadow-[0_15px_45px_rgba(2,8,20,0.45)] backdrop-blur-md md:px-5"
-    >
-      <a
-        href="#home"
-        aria-label="Go to home section"
-        class="inline-flex h-9 items-center rounded-xl border border-white/10 bg-white/5 px-3 text-xs font-semibold uppercase tracking-[0.18em] text-slate-100 transition hover:border-cyan-300/50 hover:text-cyan-100"
-      >
-        JM
-      </a>
-
-      <nav aria-label="Primary" class="hidden items-center gap-1 md:flex">
-        {
-          navItems.map((link) => (
-            <a
-              href={link.href}
-              data-nav-section={link.section}
-              class="rounded-lg px-3 py-2 text-sm font-medium text-slate-300 transition hover:bg-white/10 hover:text-slate-100"
-            >
-              {link.label}
-            </a>
-          ))
-        }
-      </nav>
-
-      <a
-        href={primaryContact.href}
-        aria-label="Contact via email"
-        class="inline-flex h-9 items-center rounded-xl bg-cyan-300 px-3 text-xs font-semibold uppercase tracking-[0.12em] text-slate-950 transition hover:bg-cyan-200"
-      >
-        Contact
-      </a>
-    </div>
-
-    <nav
-      aria-label="Mobile Section Navigation"
-      class="mt-2 flex gap-1 overflow-x-auto rounded-xl border border-white/10 bg-[#0b131f]/70 p-1 backdrop-blur md:hidden"
-    >
-      {
-        navItems.map((link) => (
-          <a
-            href={link.href}
-            data-nav-section={link.section}
-            class="whitespace-nowrap rounded-lg px-3 py-2 text-xs font-semibold uppercase tracking-[0.1em] text-slate-300 transition hover:bg-white/10 hover:text-slate-100"
-          >
-            {link.label}
-          </a>
-        ))
-      }
+<header class="site-header" id="site-header">
+  <div class="container header-inner">
+    <a class="wordmark" href={home ? "#home" : "/"} aria-label="Jesús Muñoz González — home">JM<span aria-hidden="true">.</span></a>
+    <nav aria-label="Primary">
+      {SITE_CONTENT.navItems.map(({ label, section }) => (
+        <a href={home ? `#${section}` : `/#${section}`} data-nav-section={section} aria-current={workPage && section === "work" ? "location" : undefined}>{label}</a>
+      ))}
     </nav>
   </div>
 </header>
-
 <script>
-  const observerKey = "__portfolio_nav_observer__";
-
-  document.addEventListener("astro:page-load", () => {
-    const sections = document.querySelectorAll("section[id]");
-    const navLinks = document.querySelectorAll("[data-nav-section]");
-
-    if (!sections.length || !navLinks.length) {
-      return;
-    }
-
-    if (window[observerKey]) {
-      window[observerKey].disconnect();
-    }
-
-    const updateActiveState = (id) => {
-      navLinks.forEach((link) => {
-        const isActive = link.getAttribute("data-nav-section") === id;
-        link.classList.toggle("bg-white/10", isActive);
-        link.classList.toggle("text-slate-100", isActive);
-        link.classList.toggle("text-slate-300", !isActive);
-        if (isActive) {
-          link.setAttribute("aria-current", "page");
-        } else {
-          link.removeAttribute("aria-current");
-        }
-      });
-    };
-
-    const observer = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((entry) => {
-          if (entry.isIntersecting) {
-            updateActiveState(entry.target.id);
-          }
-        });
-      },
-      {
-        root: null,
-        rootMargin: "-25% 0px -60% 0px",
-        threshold: 0.1,
-      },
-    );
-
-    sections.forEach((section) => observer.observe(section));
-    window[observerKey] = observer;
-
-    const hashSection = window.location.hash.replace("#", "");
-    if (hashSection) {
-      updateActiveState(hashSection);
-    } else {
-      updateActiveState(sections[0].id);
-    }
-  });
-
-  document.addEventListener("astro:before-swap", () => {
-    if (window[observerKey]) {
-      window[observerKey].disconnect();
-    }
-  });
+  import "../scripts/navigation";
 </script>

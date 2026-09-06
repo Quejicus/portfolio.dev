@@ -1,78 +1,31 @@
 ---
 import Layout from "../layouts/Layout.astro";
-
-import SectionContainer from "../components/SectionContainer.astro";
-import Experience from "../components/Experience.astro";
-import Projects from "../components/Projects.astro";
-import Briefcase from "../components/Briefcase.astro";
-import CodeIcon from "../icons/Code.astro";
 import Profile from "../components/Profile.astro";
-import AboutMe from "../components/AboutMe.astro";
-import AboutIcon from "../icons/About.astro";
+import Work from "../components/Work.astro";
+import Experience from "../components/Experience.astro";
 import FocusAreas from "../components/FocusAreas.astro";
-import FeaturedCaseStudy from "../components/FeaturedCaseStudy.astro";
+import AboutMe from "../components/AboutMe.astro";
 import ContactPanel from "../components/ContactPanel.astro";
-import { SECTION_ID, SITE_CONTENT } from "../data/portfolio";
+import { SITE_CONTENT } from "../data/portfolio";
 ---
-
 <Layout title={SITE_CONTENT.metaTitle} description={SITE_CONTENT.metaDescription}>
-  <main id="main-content" class="pb-10 pt-28 md:pt-32">
-    <SectionContainer id={SECTION_ID.HOME} class="py-8 md:py-14">
-      <Profile />
-    </SectionContainer>
-
-    <div class="space-y-14 md:space-y-20">
-      <SectionContainer id={SECTION_ID.FOCUS}>
-        <p class="section-kicker">Current Focus</p>
-        <h2 class="section-title">Engineering Domains I Build In</h2>
-        <p class="section-description">
-          My work combines data pipeline reliability with agentic workflow experimentation and production delivery practices.
-        </p>
-        <FocusAreas />
-      </SectionContainer>
-
-      <SectionContainer id={SECTION_ID.CASE_STUDY}>
-        <p class="section-kicker">Recent Development</p>
-        <h2 class="section-title">Featured Agentic Project</h2>
-        <p class="section-description">
-          This is the latest product I launched, focused on clarity, trust, and practical user value.
-        </p>
-        <FeaturedCaseStudy />
-      </SectionContainer>
-
-      <SectionContainer id={SECTION_ID.EXPERIENCE}>
-        <h2 class="section-title section-title-icon">
-          <Briefcase class="size-5 text-cyan-200" aria-hidden="true" />
-          Experience
-        </h2>
-        <p class="section-description">
-          Roles where I improved data reliability, orchestration quality, and delivery speed.
-        </p>
-        <Experience />
-      </SectionContainer>
-
-      <SectionContainer id={SECTION_ID.PROJECTS}>
-        <h2 class="section-title section-title-icon">
-          <CodeIcon class="size-5 text-cyan-200" aria-hidden="true" />
-          Selected Projects
-        </h2>
-        <p class="section-description">
-          Additional technical work across web engineering and applied optimization.
-        </p>
-        <Projects />
-      </SectionContainer>
-
-      <SectionContainer id={SECTION_ID.ABOUT}>
-        <h2 class="section-title section-title-icon">
-          <AboutIcon class="size-5 text-cyan-200" aria-hidden="true" />
-          About
-        </h2>
-        <AboutMe />
-      </SectionContainer>
-
-      <SectionContainer id={SECTION_ID.CONTACT}>
-        <ContactPanel />
-      </SectionContainer>
-    </div>
+  <main id="main-content" tabindex="-1">
+    <section id="home" class="container hero"><Profile /></section>
+    <section id="work" data-section="work" class="container section">
+      <span id="projects" class="anchor-alias" aria-hidden="true"></span><span id="case-study" class="anchor-alias" aria-hidden="true"></span>
+      <div class="section-heading"><div><p class="eyebrow">01 / Selected work</p><h2>Analytics first.<br />Reliable by design.</h2></div><p class="muted">A dbt-focused analytics engineering direction, supported by production data platform experience.</p></div>
+      <div class="dbt-callout"><div><p class="eyebrow">Current direction / dbt</p><h3>Turning warehouse data into trusted analytics.</h3></div><p class="muted">I’m deepening my analytics engineering practice with dbt, SQL, tested models and clear documentation. My dbt Analytics Engineering Certification was earned in September 2026; engagement-specific details will be added when they are public-safe.</p><a class="text-link" href="#about">See credentials <span aria-hidden="true">↓</span></a></div>
+      <Work />
+    </section>
+    <section id="experience" data-section="experience" class="container section">
+      <div class="section-heading"><div><p class="eyebrow">02 / Experience</p><h2>Built in production.</h2></div><a class="text-link" href={SITE_CONTENT.resume.href} download={SITE_CONTENT.resume.fileName} data-event="cv_download">Full experience in my CV (PDF) <span aria-hidden="true">↓</span></a></div>
+      <Experience />
+      <div class="capability-section" id="focus"><h3 class="eyebrow">Tools & approach</h3><FocusAreas /></div>
+    </section>
+    <section id="about" data-section="about" class="container section">
+      <div class="section-heading"><div><p class="eyebrow">03 / About</p><h2>The engineer behind the work.</h2></div></div>
+      <AboutMe />
+    </section>
+    <section id="contact" data-section="contact" class="container section"><ContactPanel /></section>
   </main>
 </Layout>

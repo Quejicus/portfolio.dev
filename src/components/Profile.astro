@@ -1,124 +1,41 @@
 ---
-import GitHubIcon from "../icons/GitHub.astro";
-import LinkedInIcon from "../icons/LinkedIn.astro";
-import MailIcon from "../icons/Mail.astro";
-import LinkIcon from "../icons/Link.astro";
-import {
-  CONTACT_CHANNEL,
-  SITE_CONTENT,
-  type ContactLink,
-} from "../data/portfolio";
-
-const hero = SITE_CONTENT.hero;
-const socialLinks = SITE_CONTENT.socialLinks;
-const resume = SITE_CONTENT.resume;
-const impactMetrics = SITE_CONTENT.impactMetrics;
-
-const iconClass = "size-4";
-
-const isExternal = (link: ContactLink) =>
-  !link.href.startsWith("mailto:") && !link.href.startsWith("#");
+import { SITE_CONTENT as site } from "../data/portfolio";
 ---
-
-<div class="grid gap-12 lg:grid-cols-[1.1fr_0.9fr] lg:items-center">
+<div class="hero-intro">
   <div>
-    <p
-      class="mb-5 inline-flex items-center gap-2 rounded-full border border-cyan-300/30 bg-cyan-300/10 px-4 py-1 text-xs font-semibold uppercase tracking-[0.16em] text-cyan-100"
-    >
-      {hero.badge}
-    </p>
-
-    <h1 class="text-balance text-3xl font-semibold leading-tight text-slate-50 md:text-5xl">
-      {hero.heading}
-    </h1>
-
-    <p class="mt-6 max-w-2xl text-pretty text-base leading-relaxed text-slate-300 md:text-lg">
-      {hero.summary}
-    </p>
-    <p class="mt-4 text-sm font-medium text-cyan-100">{hero.experienceLabel}</p>
-
-    <dl class="mt-6 grid gap-3 sm:grid-cols-3">
-      {
-        impactMetrics.map((metric) => (
-          <div class="rounded-xl border border-cyan-300/20 bg-cyan-300/[0.06] px-3 py-3">
-            <dd class="text-xl font-semibold tracking-tight text-cyan-100">{metric.value}</dd>
-            <dt class="mt-1 text-xs leading-snug text-slate-300">{metric.label}</dt>
-          </div>
-        ))
-      }
-    </dl>
-
-    <dl class="mt-8 grid gap-3 text-sm text-slate-300 sm:grid-cols-2">
-      <div class="rounded-xl border border-white/10 bg-white/5 px-4 py-3">
-        <dt class="text-[0.68rem] uppercase tracking-[0.16em] text-slate-400">Current Role</dt>
-        <dd class="mt-1 font-medium text-slate-100">{hero.currentRole}</dd>
-      </div>
-      <div class="rounded-xl border border-white/10 bg-white/5 px-4 py-3">
-        <dt class="text-[0.68rem] uppercase tracking-[0.16em] text-slate-400">Location</dt>
-        <dd class="mt-1 font-medium text-slate-100">{hero.location}</dd>
-      </div>
-    </dl>
-
-    <div class="mt-8 flex flex-wrap items-center gap-3">
-      <a
-        href={hero.ctaPrimary.href}
-        class="inline-flex items-center gap-2 rounded-xl bg-cyan-300 px-5 py-3 text-sm font-semibold text-slate-950 transition hover:bg-cyan-200"
-      >
-        {hero.ctaPrimary.label}
-      </a>
-      <a
-        href={hero.ctaSecondary.href}
-        class="inline-flex items-center gap-2 rounded-xl border border-white/20 bg-white/5 px-5 py-3 text-sm font-semibold text-slate-100 transition hover:border-cyan-300/50 hover:text-cyan-100"
-      >
-        {hero.ctaSecondary.label}
-      </a>
-      <a
-        href={resume.href}
-        download={resume.fileName}
-        class="inline-flex items-center gap-2 rounded-xl border border-white/20 bg-white/5 px-5 py-3 text-sm font-semibold text-slate-100 transition hover:border-cyan-300/50 hover:text-cyan-100"
-      >
-        {resume.label}
-      </a>
+    <p class="eyebrow availability"><span aria-hidden="true"></span> Open to data engineering opportunities</p>
+    <h1>Jesús Muñoz<br class="desktop-break" /> González<span class="accent">.</span></h1>
+    <p class="hero-role">Analytics Engineer <span aria-hidden="true">/</span> dbt & SQL</p>
+    <p class="hero-summary">I build trusted analytics layers with dbt and SQL, backed by reliable cloud data platforms and production ETL.</p>
+    <div class="actions hero-actions">
+      <a class="button primary" href={site.resume.href} download={site.resume.fileName} data-event="cv_download">Download CV <span class="button-note">(PDF)</span><span aria-hidden="true">↓</span></a>
+      <a class="button secondary" href="#work">Explore my work <span aria-hidden="true">↗</span></a>
     </div>
+    <p class="hero-context">4+ years since <time datetime="2022-06">June 2022</time> <span aria-hidden="true">·</span> Spain / remote</p>
   </div>
-
-  <aside class="rounded-3xl border border-white/10 bg-[#111c2b] p-5 shadow-[0_18px_45px_rgba(0,0,0,0.35)]">
-    <div class="flex items-center gap-4 border-b border-white/10 pb-4">
-      <img
-        class="size-16 rounded-2xl object-cover ring-1 ring-white/20"
-        src="/img/profile_pic.webp"
-        alt="Jesús Muñoz González"
-        width="378"
-        height="500"
-        loading="eager"
-        fetchpriority="high"
-      />
-      <div>
-        <p class="text-sm font-semibold text-slate-100">Jesús Muñoz González</p>
-        <p class="text-xs uppercase tracking-[0.16em] text-slate-400">Data + Agentic Engineering</p>
-      </div>
+  <aside class="hero-aside" aria-label="At a glance">
+    <div class="identity">
+      <img src="/img/profile_pic.webp" alt="" width="80" height="80" fetchpriority="high" />
+      <div><p class="eyebrow">Currently</p><p>Data Engineer<br /><strong>NTT DATA Europe & LATAM</strong></p></div>
     </div>
-
-    <div class="mt-4 grid gap-2">
-      {
-        socialLinks.map((link) => (
-          <a
-            href={link.href}
-            target={isExternal(link) ? "_blank" : undefined}
-            rel={isExternal(link) ? "noopener noreferrer" : undefined}
-            class="inline-flex items-center justify-between rounded-xl border border-white/10 bg-white/5 px-3 py-2 text-sm text-slate-200 transition hover:border-cyan-300/45 hover:bg-cyan-300/5 hover:text-cyan-100"
-          >
-            <span class="inline-flex items-center gap-2">
-              {link.channel === CONTACT_CHANNEL.LINKEDIN && <LinkedInIcon class={iconClass} />}
-              {link.channel === CONTACT_CHANNEL.GITHUB && <GitHubIcon class={iconClass} />}
-              {link.channel === CONTACT_CHANNEL.EMAIL && <MailIcon class={iconClass} />}
-              {link.channel === CONTACT_CHANNEL.PORTFOLIO && <LinkIcon class={iconClass} />}
-              {link.label}
-            </span>
-            <span class="text-xs uppercase tracking-[0.12em] text-slate-400">Open</span>
-          </a>
-        ))
-      }
+    <div class="pipeline-art" aria-hidden="true">
+      <div class="pipeline-label">FROM RAW DATA TO RELIABLE SYSTEMS</div>
+      <div class="pipeline-stage"><span>01</span> Ingest <i></i><small>Python / SQL</small></div>
+      <div class="pipeline-connector"></div>
+      <div class="pipeline-stage"><span>02</span> Model <i></i><small>dbt / SQL</small></div>
+      <div class="pipeline-connector"></div>
+      <div class="pipeline-stage"><span>03</span> Orchestrate <i></i><small>Airflow</small></div>
+      <div class="pipeline-caption">TEST · OBSERVE · ITERATE</div>
+    </div>
+    <div class="social-row">
+      <a href={site.linkedin} target="_blank" rel="noopener noreferrer" data-event="contact_link">LinkedIn <span aria-hidden="true">↗</span><span class="sr-only"> (opens in a new tab)</span></a>
+      <a href={site.github} target="_blank" rel="noopener noreferrer">GitHub <span aria-hidden="true">↗</span><span class="sr-only"> (opens in a new tab)</span></a>
+      <a href={`mailto:${site.email}`} data-event="contact_email">Email <span aria-hidden="true">↗</span></a>
     </div>
   </aside>
 </div>
+<dl class="impact-strip" aria-label="Selected professional impact">
+  {site.metrics.map((metric) => (
+    <div><dt>{metric.label}</dt><dd><a href={metric.href} data-event="project_open">{metric.value}<span aria-hidden="true">↗</span></a></dd></div>
+  ))}
+</dl>

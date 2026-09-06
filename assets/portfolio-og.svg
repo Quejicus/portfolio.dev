@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630" viewBox="0 0 1200 630">
+<defs><linearGradient id="bg" x2="1" y2="1"><stop stop-color="#090f19"/><stop offset="1" stop-color="#18374a"/></linearGradient></defs>
+<rect width="1200" height="630" fill="url(#bg)"/><path d="M64 68h1072M64 548h1072" stroke="#385365"/>
+<g font-family="Arial, Helvetica, sans-serif"><text x="64" y="120" fill="#88e8ec" font-size="18" letter-spacing="4">DATA ENGINEERING / SPAIN</text>
+<text x="60" y="250" fill="#eaf0f6" font-size="76" font-weight="700" letter-spacing="-3">Jesús Muñoz</text><text x="60" y="337" fill="#eaf0f6" font-size="76" font-weight="700" letter-spacing="-3">González<tspan fill="#88e8ec">.</tspan></text>
+<text x="64" y="411" fill="#88e8ec" font-size="32">Analytics &amp; Data Engineer</text><text x="64" y="466" fill="#b5c7d8" font-size="25">dbt · SQL · Airflow · Azure</text><text x="64" y="586" fill="#b5c7d8" font-size="18">Trusted analytics. Reliable platforms.</text>
+<text x="1088" y="586" text-anchor="end" fill="#88e8ec" font-size="22" font-weight="700">JM.</text></g>
+<g fill="none" stroke="#49717e"><rect x="900" y="194" width="200" height="56" rx="5"/><rect x="900" y="298" width="200" height="56" rx="5"/><rect x="900" y="402" width="200" height="56" rx="5"/><path d="M1000 250v48m0 56v48"/></g>
+<g fill="#88e8ec" font-family="Arial, Helvetica, sans-serif" font-size="16" text-anchor="middle"><text x="1000" y="229">INGEST</text><text x="1000" y="333">TRANSFORM</text><text x="1000" y="437">ORCHESTRATE</text></g>
+</svg>

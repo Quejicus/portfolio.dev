@@ -1,39 +1,22 @@
 ---
 import { SITE_CONTENT } from "../data/portfolio";
-
-const about = SITE_CONTENT.about;
-const credentials = SITE_CONTENT.credentials;
 ---
-
-<article class="rounded-3xl border border-white/10 bg-[#101b2a]/80 p-6 md:p-8">
-  <div class="grid gap-8 md:grid-cols-[1fr_auto] md:items-center">
-    <div class="space-y-4 text-sm leading-relaxed text-slate-300 md:text-base">
-      {about.paragraphs.map((paragraph) => <p>{paragraph}</p>)}
-    </div>
-
-    <img
-      width="378"
-      height="500"
-      src="/img/profile_pic.webp"
-      alt="Portrait of Jesús Muñoz González"
-      class="mx-auto h-44 w-44 rounded-3xl object-cover ring-1 ring-white/20 md:h-52 md:w-52"
-      loading="lazy"
-    />
+<div class="about-grid">
+  <div class="about-copy">
+    <p class="lead">Analytical by nature.<br />Pragmatic in delivery.</p>
+    <p>I’m a Data Engineer based in Spain. I care about systems that teams can understand, operate and improve—not just pipelines that run once.</p>
+    <p>My work combines cloud data engineering with testing, clear communication and maintainable delivery. I also explore AI-assisted development through personal products.</p>
+    <p class="muted">Away from the keyboard: chess, programming projects, and new challenges.</p>
+    <dl class="facts">
+      <div><dt>Languages</dt><dd>Spanish · native<br />English · B2</dd></div>
+      <div><dt>Education</dt><dd>Computer Engineering · UCLM<br /><time datetime="2011">2011</time>–<time datetime="2016">2016</time><br />Data Science Bootcamp · NEOLAND<br /><time datetime="2021-09">September</time>–<time datetime="2021-12">December 2021</time></dd></div>
+    </dl>
   </div>
-
-  <section class="mt-8 border-t border-white/10 pt-6" aria-labelledby="credentials-title">
-    <p class="section-kicker">Credentials</p>
-    <h3 id="credentials-title" class="mt-2 text-lg font-semibold text-slate-100">Certified across cloud & analytics engineering</h3>
-    <ul class="mt-4 grid gap-3 sm:grid-cols-2">
-      {
-        credentials.map((credential) => (
-          <li class="rounded-xl border border-white/10 bg-white/[0.03] p-4">
-            <p class="font-medium text-slate-100">{credential.title}</p>
-            <p class="mt-1 text-sm text-cyan-100">{credential.issuer}</p>
-            <p class="mt-2 text-xs text-slate-400">{credential.date}</p>
-          </li>
-        ))
-      }
-    </ul>
-  </section>
-</article>
+  <div class="credentials">
+    <p class="eyebrow">Continued learning</p><h3>Credentials earned</h3>
+    <ul>{SITE_CONTENT.credentials.map((credential) => (
+      <li><h4>{credential.title}</h4><p>{credential.issuer} <span aria-hidden="true">/</span> <time datetime={credential.date}>{credential.label}</time></p></li>
+    ))}</ul>
+    <p class="small muted">Dates indicate when each credential was earned.</p>
+  </div>
+</div>

@@ -1,214 +1,52 @@
 ---
 import "@fontsource-variable/onest";
-
+import "../styles/global.css";
 import Header from "../components/Header.astro";
 import Footer from "../components/Footer.astro";
-import { ViewTransitions } from "astro:transitions";
-import { SITE_CONTENT } from "../data/portfolio";
-
+import { SITE_CONTENT as site } from "../data/portfolio";
 interface Props {
   title: string;
   description: string;
+  workPage?: boolean;
+  noindex?: boolean;
+  structuredData?: Record<string, unknown>;
 }
-
-const { title, description } = Astro.props as Props;
-const siteUrl = "https://jesus-dataengineer-portfolio.netlify.app";
-const socialPreviewImage = `${siteUrl}/projects/portfolio_current_screenshot.png`;
-const structuredData = {
-  "@context": "https://schema.org",
-  "@type": "Person",
-  name: "Jesús Muñoz González",
-  jobTitle: "Data Engineer",
-  url: `${siteUrl}/`,
-  image: `${siteUrl}/img/profile_pic.webp`,
-  email: "mailto:jesusmugo91@gmail.com",
-  address: {
-    "@type": "PostalAddress",
-    addressCountry: "ES",
-  },
-  sameAs: SITE_CONTENT.socialLinks
-    .filter((link) => link.href.startsWith("https://"))
-    .map((link) => link.href),
-  knowsAbout: ["Data Engineering", "PySpark", "Apache Airflow", "Azure", "Databricks", "dbt"],
+const { title, description, workPage = false, noindex = false, structuredData } = Astro.props;
+if (!Astro.site) throw new Error("Configure the production site URL in astro.config.mjs.");
+const canonical = new URL(Astro.url.pathname, Astro.site).href;
+const image = new URL("/social/portfolio-og.png", Astro.site).href;
+const imageAlt = "Jesús Muñoz González — Analytics & Data Engineer. dbt, SQL and cloud data platforms. Based in Spain.";
+const person = {
+  "@context": "https://schema.org", "@type": "Person", "@id": new URL("/#person", Astro.site).href,
+  name: site.name, jobTitle: "Analytics & Data Engineer", url: Astro.site.href,
+  image: new URL("/img/profile_pic.webp", Astro.site).href,
+  email: `mailto:${site.email}`, address: { "@type": "PostalAddress", addressCountry: "ES" },
+  sameAs: [site.linkedin, site.github],
+  knowsAbout: ["Analytics Engineering", "dbt", "SQL", "Data Engineering", "Apache Airflow", "Azure", "Databricks"],
 };
+const website = { "@context": "https://schema.org", "@type": "WebSite", name: site.metaTitle, url: Astro.site.href, inLanguage: "en" };
+const schemas = [person, ...(Astro.url.pathname === "/" ? [website] : []), ...(structuredData ? [structuredData] : [])];
 ---
-
 <!doctype html>
 <html lang="en">
   <head>
-    <meta charset="UTF-8" />
-    <meta name="description" content={description} />
-    <meta name="viewport" content="width=device-width" />
-    <meta name="theme-color" content="#070d17" />
-    <link rel="canonical" href={`${siteUrl}/`} />
-    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-    <meta name="generator" content={Astro.generator} />
-    <meta property="og:title" content={title} />
-    <meta property="og:description" content={description} />
-    <meta property="og:type" content="website" />
-    <meta property="og:url" content={`${siteUrl}/`} />
-    <meta property="og:locale" content="en_US" />
-    <meta property="og:image" content={socialPreviewImage} />
-    <meta name="twitter:card" content="summary_large_image" />
-    <meta name="twitter:title" content={title} />
-    <meta name="twitter:description" content={description} />
-    <meta name="twitter:image" content={socialPreviewImage} />
+    <meta charset="UTF-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="description" content={description} /><meta name="theme-color" content="#090f19" />
+    {noindex && <meta name="robots" content="noindex" />}
+    <link rel="canonical" href={canonical} /><link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <meta property="og:title" content={title} /><meta property="og:description" content={description} />
+    <meta property="og:type" content="website" /><meta property="og:url" content={canonical} />
+    <meta property="og:site_name" content="Jesús Muñoz González · Analytics & Data Engineer" /><meta property="og:locale" content="en_GB" />
+    <meta property="og:image" content={image} /><meta property="og:image:width" content="1200" /><meta property="og:image:height" content="630" />
+    <meta property="og:image:type" content="image/png" /><meta property="og:image:alt" content={imageAlt} />
+    <meta name="twitter:card" content="summary_large_image" /><meta name="twitter:title" content={title} /><meta name="twitter:description" content={description} />
+    <meta name="twitter:image" content={image} /><meta name="twitter:image:alt" content={imageAlt} />
     <title>{title}</title>
-    <script type="application/ld+json" set:html={JSON.stringify(structuredData)}></script>
-    <ViewTransitions />
+    {schemas.map((schema) => <script is:inline type="application/ld+json" set:html={JSON.stringify(schema).replace(/</g, "\\u003c")} />)}
   </head>
   <body>
     <a class="skip-link" href="#main-content">Skip to content</a>
-    <div aria-hidden="true" class="page-atmosphere">
-      <div class="page-glow page-glow-top"></div>
-      <div class="page-glow page-glow-mid"></div>
-      <div class="page-grid"></div>
-    </div>
-    <Header />
-    <slot />
-    <Footer />
-
-    <style is:global>
-      :root {
-        --bg: #070d17;
-        --surface: #111d2c;
-        --text: #e5ecf6;
-        --text-muted: #8fa3bd;
-        --accent: #7ee9f8;
-        --border: rgba(148, 163, 184, 0.2);
-      }
-
-      * {
-        box-sizing: border-box;
-      }
-
-      html {
-        font-family: "Onest Variable", "Avenir Next", "Segoe UI", sans-serif;
-        scroll-behavior: smooth;
-        color-scheme: dark;
-      }
-
-      body {
-        margin: 0;
-        min-height: 100vh;
-        color: var(--text);
-        background: radial-gradient(circle at 82% -10%, #112949 0%, rgba(17, 41, 73, 0) 40%),
-          radial-gradient(circle at 0% 25%, #163558 0%, rgba(22, 53, 88, 0) 42%),
-          var(--bg);
-        position: relative;
-        overflow-x: hidden;
-      }
-
-      a,
-      button {
-        touch-action: manipulation;
-      }
-
-      :where(a, button):focus-visible {
-        outline: 2px solid var(--accent);
-        outline-offset: 3px;
-      }
-
-      .skip-link {
-        position: fixed;
-        top: 0.75rem;
-        left: 0.75rem;
-        z-index: 60;
-        transform: translateY(-180%);
-        border-radius: 0.75rem;
-        background: var(--accent);
-        padding: 0.65rem 0.9rem;
-        color: #07111d;
-        font-weight: 700;
-        text-decoration: none;
-        transition: transform 160ms ease;
-      }
-
-      .skip-link:focus-visible {
-        transform: translateY(0);
-      }
-
-      .page-atmosphere {
-        pointer-events: none;
-        position: fixed;
-        inset: 0;
-        z-index: -1;
-        overflow: hidden;
-      }
-
-      .page-glow {
-        position: absolute;
-        border-radius: 9999px;
-        filter: blur(88px);
-      }
-
-      .page-glow-top {
-        width: 28rem;
-        height: 28rem;
-        top: -8rem;
-        right: -7rem;
-        background: rgba(45, 212, 191, 0.16);
-      }
-
-      .page-glow-mid {
-        width: 22rem;
-        height: 22rem;
-        left: -8rem;
-        top: 24%;
-        background: rgba(56, 189, 248, 0.12);
-      }
-
-      .page-grid {
-        position: absolute;
-        inset: 0;
-        background-image:
-          linear-gradient(rgba(148, 163, 184, 0.08) 1px, transparent 1px),
-          linear-gradient(90deg, rgba(148, 163, 184, 0.08) 1px, transparent 1px);
-        background-size: 42px 42px;
-        mask-image: radial-gradient(ellipse at center, black 25%, transparent 82%);
-      }
-
-      .section-kicker {
-        margin: 0;
-        font-size: 0.72rem;
-        line-height: 1.4;
-        letter-spacing: 0.2em;
-        text-transform: uppercase;
-        color: #9deaf6;
-        font-weight: 600;
-      }
-
-      .section-title {
-        margin: 0.5rem 0 0;
-        font-size: clamp(1.75rem, 2.5vw, 2.4rem);
-        line-height: 1.2;
-        font-weight: 650;
-        color: var(--text);
-      }
-
-      .section-title-icon {
-        display: inline-flex;
-        align-items: center;
-        gap: 0.55rem;
-      }
-
-      .section-description {
-        margin: 0.9rem 0 1.5rem;
-        max-width: 58ch;
-        color: var(--text-muted);
-        line-height: 1.65;
-      }
-
-      @media (prefers-reduced-motion: reduce) {
-        html {
-          scroll-behavior: auto;
-        }
-
-        * {
-          animation: none !important;
-          transition: none !important;
-        }
-      }
-    </style>
+    <Header workPage={workPage} /><slot /><Footer />
+    <script>import "../scripts/events";</script>
   </body>
 </html>

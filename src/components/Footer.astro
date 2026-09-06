@@ -1,33 +1,7 @@
 ---
-import { SITE_CONTENT } from "../data/portfolio";
-
-const socialLinks = SITE_CONTENT.socialLinks;
-const lastUpdated = SITE_CONTENT.lastUpdated;
+import { SITE_CONTENT as site } from "../data/portfolio";
 ---
-
-<footer id="site-footer" class="mt-16 border-t border-white/10">
-  <div class="mx-auto flex w-full max-w-6xl flex-col gap-6 px-4 py-10 md:px-8 md:py-12 lg:flex-row lg:items-center lg:justify-between">
-    <div>
-      <p class="text-xs font-semibold uppercase tracking-[0.16em] text-slate-400">Recruiter Contact</p>
-      <p class="mt-2 text-sm text-slate-200 md:text-base">
-        Available for Data Engineering and Agentic Engineering opportunities.
-      </p>
-      <p class="mt-2 text-xs text-slate-400">Last updated {lastUpdated.display}</p>
-    </div>
-
-    <div class="flex flex-wrap gap-2">
-      {
-        socialLinks.map((link) => (
-          <a
-            href={link.href}
-            target={link.href.startsWith("mailto:") ? undefined : "_blank"}
-            rel={link.href.startsWith("mailto:") ? undefined : "noopener noreferrer"}
-            class="inline-flex items-center rounded-lg border border-white/15 bg-white/5 px-3 py-2 text-sm text-slate-200 transition hover:border-cyan-300/50 hover:text-cyan-100"
-          >
-            {link.label}
-          </a>
-        ))
-      }
-    </div>
-  </div>
+<footer class="site-footer container">
+  <p>© {new Date(site.lastUpdated.isoDate).getUTCFullYear()} {site.name}<br /><span class="muted">Content updated <time datetime={site.lastUpdated.isoDate}>{site.lastUpdated.display}</time></span></p>
+  <div class="footer-links"><a href={site.resume.href} download={site.resume.fileName} data-event="cv_download">CV (PDF)</a><a href={site.repository} target="_blank" rel="noopener noreferrer">Built with Astro · source <span aria-hidden="true">↗</span><span class="sr-only"> (opens in a new tab)</span></a><a href="#main-content">Back to top ↑</a></div>
 </footer>
