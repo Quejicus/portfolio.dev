@@ -31,6 +31,8 @@ const wrapperByStyleClass = {
           <img
             src={project.image}
             alt={`${project.title} screenshot`}
+            width={project.imageWidth}
+            height={project.imageHeight}
             class={imageByStyleClass[project.visualStyle]}
             loading="lazy"
           />

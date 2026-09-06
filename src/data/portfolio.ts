@@ -48,6 +48,28 @@ export interface ContactLink {
   channel: ContactChannel;
 }
 
+export interface ResumeLink {
+  href: string;
+  label: string;
+  fileName: string;
+}
+
+export interface LastUpdated {
+  display: string;
+  isoDate: string;
+}
+
+export interface ImpactMetric {
+  value: string;
+  label: string;
+}
+
+export interface Credential {
+  title: string;
+  issuer: string;
+  date: string;
+}
+
 export interface HeroContent {
   badge: string;
   heading: string;
@@ -88,6 +110,8 @@ export interface CaseStudyEntry {
   metrics: CaseStudyMetric[];
   links: ProjectLink[];
   image: string;
+  imageWidth: number;
+  imageHeight: number;
   domain: string;
 }
 
@@ -104,6 +128,8 @@ export interface ProjectEntry {
   summary: string;
   stack: string[];
   image: string;
+  imageWidth: number;
+  imageHeight: number;
   visualStyle: ProjectVisualStyle;
   links: ProjectLink[];
 }
@@ -115,22 +141,28 @@ export interface AboutContent {
 export interface SiteContent {
   metaTitle: string;
   metaDescription: string;
-  lastUpdated: string;
+  lastUpdated: LastUpdated;
   navItems: NavItem[];
   socialLinks: ContactLink[];
+  resume: ResumeLink;
   hero: HeroContent;
+  impactMetrics: ImpactMetric[];
   focusAreas: FocusArea[];
   featuredCaseStudy: CaseStudyEntry;
   experience: ExperienceEntry[];
   projects: ProjectEntry[];
+  credentials: Credential[];
   about: AboutContent;
 }
 
 export const SITE_CONTENT: SiteContent = {
   metaTitle: "Jesús Muñoz González | Data & Agentic Engineer",
   metaDescription:
-    "Data Engineer at NTT DATA building scalable ETL platforms and agentic AI workflows focused on reliability, observability, and delivery.",
-  lastUpdated: "August 2026",
+    "Data Engineer specialising in resilient cloud data platforms, PySpark, Apache Airflow, Azure, and Databricks.",
+  lastUpdated: {
+    display: "September 2026",
+    isoDate: "2026-09-06",
+  },
   navItems: [
     { label: "Home", href: "#home", section: SECTION_ID.HOME },
     { label: "Focus", href: "#focus", section: SECTION_ID.FOCUS },
@@ -170,12 +202,17 @@ export const SITE_CONTENT: SiteContent = {
       channel: CONTACT_CHANNEL.PORTFOLIO,
     },
   ],
+  resume: {
+    href: "/CV_Data_Engineer_2026.pdf",
+    label: "Download CV",
+    fileName: "Jesus_Munoz_Gonzalez_Data_Engineer_CV_2026.pdf",
+  },
   hero: {
     badge: "Open to Data & AI Engineering Opportunities",
     heading:
-      "Data & Agentic Engineer focused on high-performance ETL, data platforms, and autonomous AI workflows.",
+      "Data Engineer building resilient cloud data platforms with PySpark & Airflow.",
     summary:
-      "I design and optimize data systems that scale. Today I build production ETL pipelines at NTT DATA and expand into agentic engineering with reliable tool-calling workflows.",
+      "I modernize data platforms with Python, SQL, PySpark, Airflow, Azure, and Databricks—combining scalable delivery with testing, CI/CD, and pragmatic AI-assisted engineering.",
     experienceLabel:
       "4+ years of professional experience in Data Engineering (since June 2022)",
     location: "Based in Spain",
@@ -191,6 +228,20 @@ export const SITE_CONTENT: SiteContent = {
       section: SECTION_ID.PROJECTS,
     },
   },
+  impactMetrics: [
+    {
+      value: "80–100",
+      label: "Daily production pipelines",
+    },
+    {
+      value: "150–180",
+      label: "Workflows migrated to Airflow",
+    },
+    {
+      value: "~60%",
+      label: "Faster end-to-end ETL",
+    },
+  ],
   focusAreas: [
     {
       title: "Data Engineering",
@@ -272,6 +323,8 @@ export const SITE_CONTENT: SiteContent = {
       },
     ],
     image: "/projects/micalculadora_screenshot.webp",
+    imageWidth: 1200,
+    imageHeight: 630,
     domain: "micalculadorafinanciera.com",
   },
   experience: [
@@ -280,11 +333,14 @@ export const SITE_CONTENT: SiteContent = {
       role: "Data Engineer",
       company: "NTT DATA Europe & LATAM",
       summary:
-        "Designing and maintaining data pipelines across public-sector projects with strong reliability and delivery expectations.",
+        "Designing cloud data platforms across insurance, healthcare, energy, and public-sector projects with a focus on reliable delivery and maintainable engineering.",
       highlights: [
-        "Developed ETL pipelines using PySpark and HBase for environmental programs in Andalusia.",
-        "Migrated legacy Pentaho Data Integration pipelines to Apache Airflow for Tenerife initiatives.",
-        "Contributed to maintainability and operational quality across multi-project data workflows.",
+        "Designed and implemented 80–100 production ETL pipelines with Apache Airflow, PySpark, and Stratio for daily workloads ranging from tens to hundreds of GB.",
+        "Technically led the migration of 150–180 Pentaho Data Integration workflows to Apache Airflow, improving performance, scalability, and maintainability by approximately 80%.",
+        "Optimized large-scale PySpark and HBase pipelines, reducing end-to-end ETL processing time by approximately 60%.",
+        "Built 6–8 Python and AWS Lambda microservices for an internal data portal, integrating DynamoDB, Athena, CloudWatch, and REST APIs.",
+        "Developed data models and Looker dashboards in BigQuery to support operational, performance, and business reporting teams.",
+        "Built Azure and Databricks solutions with automated testing, CI/CD, and AI-assisted development practices.",
       ],
     },
     {
@@ -294,9 +350,9 @@ export const SITE_CONTENT: SiteContent = {
       summary:
         "Delivered internal analytics and automation capabilities for business and engineering teams.",
       highlights: [
-        "Built and maintained ETL pipelines with Apache Airflow.",
-        "Created insight dashboards and reporting flows using Apache Superset.",
-        "Developed internal APIs and improved legacy code reliability.",
+        "Designed, developed, and maintained Apache Airflow ETL workflows for more reliable, automated internal reporting.",
+        "Built Apache Superset dashboards that helped internal teams monitor operational and business KPIs.",
+        "Refactored legacy APIs and backend code, reducing response times by approximately 40%.",
       ],
     },
   ],
@@ -307,6 +363,8 @@ export const SITE_CONTENT: SiteContent = {
         "Portfolio website built with Astro and Tailwind CSS as a lightweight, performant front-end foundation.",
       stack: ["Astro", "Tailwind CSS"],
       image: "/projects/portfolio_current_screenshot.png",
+      imageWidth: 1265,
+      imageHeight: 712,
       visualStyle: PROJECT_VISUAL_STYLE.DEFAULT,
       links: [
         {
@@ -322,14 +380,38 @@ export const SITE_CONTENT: SiteContent = {
         "Data science project that combines scraped pricing data, preprocessing, and a genetic algorithm to optimize computer component selection with constraints.",
       stack: ["Python", "Web Scraping", "Genetic Algorithms", "Streamlit"],
       image: "/projects/optimizing_project.webp",
+      imageWidth: 960,
+      imageHeight: 540,
       visualStyle: PROJECT_VISUAL_STYLE.TONED,
       links: [],
     },
   ],
+  credentials: [
+    {
+      title: "dbt Analytics Engineering Certification",
+      issuer: "dbt",
+      date: "September 2026",
+    },
+    {
+      title: "Microsoft Certified: Azure Data Engineer Associate",
+      issuer: "Microsoft",
+      date: "December 2023",
+    },
+    {
+      title: "Professional Data Engineer",
+      issuer: "DataCamp",
+      date: "September 2024",
+    },
+    {
+      title: "Google IT Automation with Python",
+      issuer: "Coursera",
+      date: "August 2024",
+    },
+  ],
   about: {
     paragraphs: [
-      "I am an adaptable and pragmatic engineer who enjoys combining analytical rigor with creative problem-solving.",
-      "My current focus is building robust data systems and extending that mindset into agentic engineering patterns that are production-ready.",
+      "I am a pragmatic Data Engineer who combines analytical rigor with clear communication and maintainable delivery practices.",
+      "My current focus is reliable cloud data platforms, analytics engineering, and AI-assisted development workflows that keep quality high as teams move faster.",
       "Outside work, I keep learning through programming projects, chess, and challenges that push me beyond my comfort zone.",
     ],
   },

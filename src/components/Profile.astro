@@ -11,6 +11,8 @@ import {
 
 const hero = SITE_CONTENT.hero;
 const socialLinks = SITE_CONTENT.socialLinks;
+const resume = SITE_CONTENT.resume;
+const impactMetrics = SITE_CONTENT.impactMetrics;
 
 const iconClass = "size-4";
 
@@ -34,6 +36,17 @@ const isExternal = (link: ContactLink) =>
       {hero.summary}
     </p>
     <p class="mt-4 text-sm font-medium text-cyan-100">{hero.experienceLabel}</p>
+
+    <dl class="mt-6 grid gap-3 sm:grid-cols-3">
+      {
+        impactMetrics.map((metric) => (
+          <div class="rounded-xl border border-cyan-300/20 bg-cyan-300/[0.06] px-3 py-3">
+            <dd class="text-xl font-semibold tracking-tight text-cyan-100">{metric.value}</dd>
+            <dt class="mt-1 text-xs leading-snug text-slate-300">{metric.label}</dt>
+          </div>
+        ))
+      }
+    </dl>
 
     <dl class="mt-8 grid gap-3 text-sm text-slate-300 sm:grid-cols-2">
       <div class="rounded-xl border border-white/10 bg-white/5 px-4 py-3">
@@ -59,6 +72,13 @@ const isExternal = (link: ContactLink) =>
       >
         {hero.ctaSecondary.label}
       </a>
+      <a
+        href={resume.href}
+        download={resume.fileName}
+        class="inline-flex items-center gap-2 rounded-xl border border-white/20 bg-white/5 px-5 py-3 text-sm font-semibold text-slate-100 transition hover:border-cyan-300/50 hover:text-cyan-100"
+      >
+        {resume.label}
+      </a>
     </div>
   </div>
 
@@ -68,7 +88,10 @@ const isExternal = (link: ContactLink) =>
         class="size-16 rounded-2xl object-cover ring-1 ring-white/20"
         src="/img/profile_pic.webp"
         alt="Jesús Muñoz González"
+        width="378"
+        height="500"
         loading="eager"
+        fetchpriority="high"
       />
       <div>
         <p class="text-sm font-semibold text-slate-100">Jesús Muñoz González</p>

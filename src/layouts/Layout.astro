@@ -4,6 +4,7 @@ import "@fontsource-variable/onest";
 import Header from "../components/Header.astro";
 import Footer from "../components/Footer.astro";
 import { ViewTransitions } from "astro:transitions";
+import { SITE_CONTENT } from "../data/portfolio";
 
 interface Props {
   title: string;
@@ -11,6 +12,25 @@ interface Props {
 }
 
 const { title, description } = Astro.props as Props;
+const siteUrl = "https://jesus-dataengineer-portfolio.netlify.app";
+const socialPreviewImage = `${siteUrl}/projects/portfolio_current_screenshot.png`;
+const structuredData = {
+  "@context": "https://schema.org",
+  "@type": "Person",
+  name: "Jesús Muñoz González",
+  jobTitle: "Data Engineer",
+  url: `${siteUrl}/`,
+  image: `${siteUrl}/img/profile_pic.webp`,
+  email: "mailto:jesusmugo91@gmail.com",
+  address: {
+    "@type": "PostalAddress",
+    addressCountry: "ES",
+  },
+  sameAs: SITE_CONTENT.socialLinks
+    .filter((link) => link.href.startsWith("https://"))
+    .map((link) => link.href),
+  knowsAbout: ["Data Engineering", "PySpark", "Apache Airflow", "Azure", "Databricks", "dbt"],
+};
 ---
 
 <!doctype html>
@@ -19,22 +39,26 @@ const { title, description } = Astro.props as Props;
     <meta charset="UTF-8" />
     <meta name="description" content={description} />
     <meta name="viewport" content="width=device-width" />
-    <link rel="canonical" href="https://jesus-dataengineer-portfolio.netlify.app/" />
+    <meta name="theme-color" content="#070d17" />
+    <link rel="canonical" href={`${siteUrl}/`} />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <meta name="generator" content={Astro.generator} />
     <meta property="og:title" content={title} />
     <meta property="og:description" content={description} />
     <meta property="og:type" content="website" />
-    <meta property="og:url" content="https://jesus-dataengineer-portfolio.netlify.app/" />
-    <meta property="og:image" content="https://jesus-dataengineer-portfolio.netlify.app/img/profile_pic.webp" />
+    <meta property="og:url" content={`${siteUrl}/`} />
+    <meta property="og:locale" content="en_US" />
+    <meta property="og:image" content={socialPreviewImage} />
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:title" content={title} />
     <meta name="twitter:description" content={description} />
-    <meta name="twitter:image" content="https://jesus-dataengineer-portfolio.netlify.app/img/profile_pic.webp" />
+    <meta name="twitter:image" content={socialPreviewImage} />
     <title>{title}</title>
+    <script type="application/ld+json" set:html={JSON.stringify(structuredData)}></script>
     <ViewTransitions />
   </head>
   <body>
+    <a class="skip-link" href="#main-content">Skip to content</a>
     <div aria-hidden="true" class="page-atmosphere">
       <div class="page-glow page-glow-top"></div>
       <div class="page-glow page-glow-mid"></div>
@@ -61,6 +85,7 @@ const { title, description } = Astro.props as Props;
       html {
         font-family: "Onest Variable", "Avenir Next", "Segoe UI", sans-serif;
         scroll-behavior: smooth;
+        color-scheme: dark;
       }
 
       body {
@@ -71,6 +96,36 @@ const { title, description } = Astro.props as Props;
           radial-gradient(circle at 0% 25%, #163558 0%, rgba(22, 53, 88, 0) 42%),
           var(--bg);
         position: relative;
+        overflow-x: hidden;
+      }
+
+      a,
+      button {
+        touch-action: manipulation;
+      }
+
+      :where(a, button):focus-visible {
+        outline: 2px solid var(--accent);
+        outline-offset: 3px;
+      }
+
+      .skip-link {
+        position: fixed;
+        top: 0.75rem;
+        left: 0.75rem;
+        z-index: 60;
+        transform: translateY(-180%);
+        border-radius: 0.75rem;
+        background: var(--accent);
+        padding: 0.65rem 0.9rem;
+        color: #07111d;
+        font-weight: 700;
+        text-decoration: none;
+        transition: transform 160ms ease;
+      }
+
+      .skip-link:focus-visible {
+        transform: translateY(0);
       }
 
       .page-atmosphere {

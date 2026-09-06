@@ -16,7 +16,7 @@ import { SECTION_ID, SITE_CONTENT } from "../data/portfolio";
 ---
 
 <Layout title={SITE_CONTENT.metaTitle} description={SITE_CONTENT.metaDescription}>
-  <main class="pb-10 pt-28 md:pt-32">
+  <main id="main-content" class="pb-10 pt-28 md:pt-32">
     <SectionContainer id={SECTION_ID.HOME} class="py-8 md:py-14">
       <Profile />
     </SectionContainer>
@@ -42,7 +42,7 @@ import { SECTION_ID, SITE_CONTENT } from "../data/portfolio";
 
       <SectionContainer id={SECTION_ID.EXPERIENCE}>
         <h2 class="section-title section-title-icon">
-          <Briefcase class="size-5 text-cyan-200" />
+          <Briefcase class="size-5 text-cyan-200" aria-hidden="true" />
           Experience
         </h2>
         <p class="section-description">
@@ -53,7 +53,7 @@ import { SECTION_ID, SITE_CONTENT } from "../data/portfolio";
 
       <SectionContainer id={SECTION_ID.PROJECTS}>
         <h2 class="section-title section-title-icon">
-          <CodeIcon class="size-5 text-cyan-200" />
+          <CodeIcon class="size-5 text-cyan-200" aria-hidden="true" />
           Selected Projects
         </h2>
         <p class="section-description">
@@ -64,7 +64,7 @@ import { SECTION_ID, SITE_CONTENT } from "../data/portfolio";
 
       <SectionContainer id={SECTION_ID.ABOUT}>
         <h2 class="section-title section-title-icon">
-          <AboutIcon class="size-5 text-cyan-200" />
+          <AboutIcon class="size-5 text-cyan-200" aria-hidden="true" />
           About
         </h2>
         <AboutMe />

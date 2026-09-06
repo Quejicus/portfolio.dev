@@ -2,19 +2,38 @@
 import { SITE_CONTENT } from "../data/portfolio";
 
 const about = SITE_CONTENT.about;
+const credentials = SITE_CONTENT.credentials;
 ---
 
-<article class="grid gap-8 rounded-3xl border border-white/10 bg-[#101b2a]/80 p-6 md:grid-cols-[1fr_auto] md:items-center md:p-8">
-  <div class="space-y-4 text-sm leading-relaxed text-slate-300 md:text-base">
-    {about.paragraphs.map((paragraph) => <p>{paragraph}</p>)}
+<article class="rounded-3xl border border-white/10 bg-[#101b2a]/80 p-6 md:p-8">
+  <div class="grid gap-8 md:grid-cols-[1fr_auto] md:items-center">
+    <div class="space-y-4 text-sm leading-relaxed text-slate-300 md:text-base">
+      {about.paragraphs.map((paragraph) => <p>{paragraph}</p>)}
+    </div>
+
+    <img
+      width="378"
+      height="500"
+      src="/img/profile_pic.webp"
+      alt="Portrait of Jesús Muñoz González"
+      class="mx-auto h-44 w-44 rounded-3xl object-cover ring-1 ring-white/20 md:h-52 md:w-52"
+      loading="lazy"
+    />
   </div>
 
-  <img
-    width="220"
-    height="220"
-    src="/img/profile_pic.webp"
-    alt="Portrait of Jesús Muñoz González"
-    class="mx-auto h-44 w-44 rounded-3xl object-cover ring-1 ring-white/20 md:h-52 md:w-52"
-    loading="lazy"
-  />
+  <section class="mt-8 border-t border-white/10 pt-6" aria-labelledby="credentials-title">
+    <p class="section-kicker">Credentials</p>
+    <h3 id="credentials-title" class="mt-2 text-lg font-semibold text-slate-100">Certified across cloud & analytics engineering</h3>
+    <ul class="mt-4 grid gap-3 sm:grid-cols-2">
+      {
+        credentials.map((credential) => (
+          <li class="rounded-xl border border-white/10 bg-white/[0.03] p-4">
+            <p class="font-medium text-slate-100">{credential.title}</p>
+            <p class="mt-1 text-sm text-cyan-100">{credential.issuer}</p>
+            <p class="mt-2 text-xs text-slate-400">{credential.date}</p>
+          </li>
+        ))
+      }
+    </ul>
+  </section>
 </article>
