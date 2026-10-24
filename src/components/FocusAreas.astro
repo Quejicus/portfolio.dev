@@ -1,8 +1,9 @@
 ---
-import { SITE_CONTENT } from "../data/portfolio";
+import { getContent, getLocale } from "../i18n";
+const { site } = getContent(getLocale(Astro.url.pathname));
 ---
 <div class="capabilities">
-  {SITE_CONTENT.capabilities.map((area, index) => (
+  {site.capabilities.map((area, index) => (
     <div><span class="eyebrow" aria-hidden="true">0{index + 1}</span><h3>{area.title}</h3><p class="muted">{area.description}</p></div>
   ))}
 </div>

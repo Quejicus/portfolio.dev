@@ -1,7 +1,8 @@
 ---
-import { SITE_CONTENT as site } from "../data/portfolio";
+import { getContent, getLocale } from "../i18n";
+const { site, ui } = getContent(getLocale(Astro.url.pathname));
 ---
 <footer class="site-footer container">
-  <p>© {new Date(site.lastUpdated.isoDate).getUTCFullYear()} {site.name}<br /><span class="muted">Content updated <time datetime={site.lastUpdated.isoDate}>{site.lastUpdated.display}</time></span></p>
-  <div class="footer-links"><a href={site.resume.href} download={site.resume.fileName} data-event="cv_download">CV (PDF)</a><a href={site.repository} target="_blank" rel="noopener noreferrer">Built with Astro · source <span aria-hidden="true">↗</span><span class="sr-only"> (opens in a new tab)</span></a><a href="#main-content">Back to top ↑</a></div>
+  <p>© {new Date(site.lastUpdated.isoDate).getUTCFullYear()} {site.name}<br /><span class="muted">{ui.footer.updated} <time datetime={site.lastUpdated.isoDate}>{site.lastUpdated.display}</time></span></p>
+  <div class="footer-links"><a href={site.repository} target="_blank" rel="noopener noreferrer">{ui.footer.source} <span aria-hidden="true">↗</span><span class="sr-only">{ui.newTab}</span></a><a href="#main-content">{ui.footer.top} <span aria-hidden="true">↑</span></a></div>
 </footer>

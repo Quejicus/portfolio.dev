@@ -1,51 +1,83 @@
-import { test, expect } from "@playwright/test";
+import { test, expect, type Page } from "@playwright/test";
 import AxeBuilder from "@axe-core/playwright";
-const routes = ["/", "/work/airflow-migration/", "/work/pyspark-optimisation/", "/work/financial-calculator/", "/work/pc-optimisation/"];
+const spanishRoutes = ["/", "/work/airflow-migration/", "/work/pyspark-optimisation/", "/work/financial-calculator/", "/work/pc-optimisation/"];
+const routes = [...spanishRoutes, ...spanishRoutes.map((route) => `/en${route}`)];
+async function openMobileMenu(page: Page) {
+  const toggle = page.locator(".menu-toggle");
+  if (await toggle.isVisible() && await toggle.getAttribute("aria-expanded") === "false") await toggle.click();
+}
 for (const route of routes) {
   test(`page, metadata and accessibility: ${route}`, async ({ page }) => {
     const errors: string[] = [];
     page.on("pageerror", (error) => errors.push(error.message));
     await page.goto(route);
+    const english = route.startsWith("/en/");
+    const spanishRoute = english ? route.slice(3) : route;
+    await expect(page.locator("html")).toHaveAttribute("lang", english ? "en" : "es");
     await expect(page.getByRole("heading", { level: 1 })).toHaveCount(1);
     await expect(page.locator('link[rel="canonical"]')).toHaveAttribute("href", `https://jesus-dataengineer-portfolio.netlify.app${route}`);
-    await expect(page.locator('meta[property="og:image"]')).toHaveAttribute("content", /\/social\/portfolio-og.png$/);
-    for (const script of await page.locator('script[type="application/ld+json"]').allTextContents()) expect(() => JSON.parse(script)).not.toThrow();
+    await expect(page.locator('meta[property="og:image"]')).toHaveAttribute("content", new RegExp(`/social/portfolio-og${english ? "-en" : ""}.png$`));
+    await expect(page.locator('meta[property="og:locale"]')).toHaveAttribute("content", english ? "en_GB" : "es_ES");
+    await expect(page.locator('meta[property="og:title"]')).toHaveAttribute("content", await page.title());
+    await expect(page.locator('meta[property="og:description"]')).toHaveAttribute("content", (await page.locator('meta[name="description"]').getAttribute("content"))!);
+    await expect(page.locator(".wordmark")).toHaveAttribute("href", route === "/" || route === "/en/" ? "#home" : english ? "/en/" : "/");
+    if (spanishRoute !== "/") await expect(page.locator(".back-link")).toHaveAttribute("href", english ? "/en/#work" : "/#work");
+    for (const [language, expectedRoute] of [["es", spanishRoute], ["en", `/en${spanishRoute}`], ["x-default", spanishRoute]]) {
+      await expect(page.locator(`link[rel="alternate"][hreflang="${language}"]`)).toHaveAttribute("href", `https://jesus-dataengineer-portfolio.netlify.app${expectedRoute}`);
+    }
+    for (const script of await page.locator('script[type="application/ld+json"]').allTextContents()) {
+      const schema = JSON.parse(script);
+      if (schema.inLanguage) expect(schema.inLanguage).toBe(english ? "en" : "es");
+    }
+    for (const link of await page.locator(".work-copy a, .case-next a, .back-link, .case-note .text-link").all()) {
+      await expect(link).toHaveAttribute("href", english ? /^\/en\// : /^\/(?!en\/)/);
+    }
     for (const link of await page.locator('a[target="_blank"]').all()) await expect(link).toHaveAttribute("rel", /noopener noreferrer/);
     const results = await new AxeBuilder({ page }).withTags(["wcag2a", "wcag2aa", "wcag21aa", "wcag22aa"]).analyze();
     expect(results.violations).toEqual([]);
     expect(errors).toEqual([]);
   });
 }
-for (const width of [320, 390, 768, 1280]) {
-  test(`responsive navigation and early CV at ${width}px`, async ({ page }) => {
-    const height = width >= 768 ? 800 : 844;
-    await page.setViewportSize({ width, height });
-    await page.emulateMedia({ reducedMotion: "reduce" });
-    await page.goto("/");
-    const cv = page.locator(".hero-actions a[download]");
-    const box = await cv.boundingBox();
-    expect(box).not.toBeNull();
-    expect(box!.y + box!.height).toBeLessThan(height);
-    for (const section of ["work", "experience", "about", "contact"]) {
-      const link = page.locator(`nav a[data-nav-section="${section}"]`);
-      await link.click();
-      await expect(page).toHaveURL(new RegExp(`#${section}$`));
-      await expect(link).toHaveAttribute("aria-current", "location");
-      const sectionTop = (await page.locator(`#${section}`).boundingBox())!.y;
-      const header = (await page.locator("#site-header").boundingBox())!;
-      expect(sectionTop).toBeGreaterThanOrEqual(header.y + header.height);
-    }
-    const overflow = await page.evaluate(() => document.documentElement.scrollWidth > window.innerWidth);
-    expect(overflow).toBe(false);
-    const results = await new AxeBuilder({ page }).withTags(["wcag2a", "wcag2aa", "wcag21aa", "wcag22aa"]).analyze();
-    expect(results.violations).toEqual([]);
-  });
+for (const homeRoute of ["/", "/en/"]) {
+  for (const width of [320, 390, 768, 820, 1024, 1280]) {
+    test(`responsive navigation and early project contact at ${width}px: ${homeRoute}`, async ({ page }) => {
+      const height = width >= 768 ? 800 : 844;
+      await page.setViewportSize({ width, height });
+      await page.emulateMedia({ reducedMotion: "reduce" });
+      await page.goto(homeRoute);
+      const contact = page.locator('.hero-actions a[href="#contact"]');
+      const box = await contact.boundingBox();
+      expect(box).not.toBeNull();
+      expect(box!.y + box!.height).toBeLessThan(height);
+      await contact.click();
+      await expect(page).toHaveURL(/#contact$/);
+      for (const section of ["work", "services", "experience", "about", "contact"]) {
+        await openMobileMenu(page);
+        const link = page.locator(`nav a[data-nav-section="${section}"]`);
+        await link.click();
+        await expect(page).toHaveURL(new RegExp(`#${section}$`));
+        await expect(link).toHaveAttribute("aria-current", "location");
+        const sectionTop = (await page.locator(`#${section}`).boundingBox())!.y;
+        const header = (await page.locator("#site-header").boundingBox())!;
+        expect(sectionTop).toBeGreaterThanOrEqual(header.y + header.height);
+        if (width < 761) await expect(page.locator(".menu-toggle")).toHaveAttribute("aria-expanded", "false");
+      }
+      if (width >= 768) {
+        const linkTops = await page.locator("nav a").evaluateAll((links) => links.map((link) => Math.round(link.getBoundingClientRect().top)));
+        expect(new Set(linkTops).size).toBe(1);
+      }
+      const overflow = await page.evaluate(() => document.documentElement.scrollWidth > window.innerWidth);
+      expect(overflow).toBe(false);
+      const results = await new AxeBuilder({ page }).withTags(["wcag2a", "wcag2aa", "wcag21aa", "wcag22aa"]).analyze();
+      expect(results.violations).toEqual([]);
+    });
+  }
 }
 test("skip link, legacy anchors and project navigation", async ({ page, browserName }) => {
   await page.goto("/");
   // Safari on macOS uses Option-Tab to include links when full keyboard access is off.
   await page.keyboard.press(browserName === "webkit" && process.platform === "darwin" ? "Alt+Tab" : "Tab");
-  await expect(page.getByRole("link", { name: "Skip to content" })).toBeFocused();
+  await expect(page.getByRole("link", { name: "Saltar al contenido" })).toBeFocused();
   await page.keyboard.press("Enter");
   await expect(page.locator("#main-content")).toBeFocused();
   for (const hash of ["projects", "case-study", "focus"]) {
@@ -53,9 +85,13 @@ test("skip link, legacy anchors and project navigation", async ({ page, browserN
     await expect(page.locator(`#${hash}`)).toBeAttached();
   }
   await page.goto("/#work");
-  await page.getByRole("link", { name: /Read case study\s*:\s*From Pentaho to Airflow/ }).click();
+  expect(await page.locator(".work-copy h3 a").evaluateAll((links) => links.map((link) => link.getAttribute("href")))).toEqual([
+    "/work/financial-calculator/", "/work/pc-optimisation/", "/work/airflow-migration/", "/work/pyspark-optimisation/",
+  ]);
+  await expect(page.locator(".mini-flow")).toHaveText(["PENTAHO→AIRFLOW", "PYSPARK→HBASE"]);
+  await page.getByRole("link", { name: "Leer caso de estudio: De Pentaho a Airflow", exact: true }).click();
   await expect(page).toHaveURL(/\/work\/airflow-migration\/$/);
-  await page.getByRole("link", { name: "All work", exact: false }).click();
+  await page.getByRole("link", { name: "Todos los proyectos", exact: false }).click();
   await expect(page).toHaveURL(/\/#work$/);
 });
 test("CV, sitemap, sharing image and internal destinations resolve", async ({ page, request }) => {
@@ -68,7 +104,12 @@ test("CV, sitemap, sharing image and internal destinations resolve", async ({ pa
   const og = await request.get("/social/portfolio-og.png");
   expect(og.ok()).toBeTruthy();
   expect(og.headers()["content-type"]).toContain("image/png");
+  const englishOg = await request.get("/social/portfolio-og-en.png");
+  expect(englishOg.ok()).toBeTruthy();
+  expect(englishOg.headers()["content-type"]).toContain("image/png");
   await page.goto("/");
+  await expect(page.locator("a[download]")).toHaveCount(1);
+  await expect(page.locator("#experience a[download]")).toHaveAttribute("href", "/CV_Data_Engineer_2026.pdf");
   const hrefs = await page.locator('a[href^="/"]').evaluateAll((links) => [...new Set(links.map((link) => link.getAttribute("href")!).filter((href) => !href.startsWith("/#")))]);
   for (const href of hrefs) expect((await request.get(href)).ok(), href).toBeTruthy();
   const missing = await request.get("/not-a-real-page/");
@@ -77,8 +118,8 @@ test("CV, sitemap, sharing image and internal destinations resolve", async ({ pa
 test("copy email handles permission failure accessibly", async ({ page }) => {
   await page.addInitScript(() => Object.defineProperty(navigator, "clipboard", { value: { writeText: () => Promise.reject(new Error("Denied")) } }));
   await page.goto("/#contact");
-  await page.getByRole("button", { name: "Copy email" }).click();
-  await expect(page.getByRole("status")).toContainText("Copy unavailable");
+  await page.getByRole("button", { name: "Copiar email" }).click();
+  await expect(page.getByRole("status")).toContainText("No se ha podido copiar");
   await expect(page.locator(".email-link")).toHaveAttribute("href", "mailto:jesusmugo91@gmail.com");
 });
 test("copy email success and provider-neutral event hook", async ({ page }) => {
@@ -90,21 +131,70 @@ test("copy email success and provider-neutral event hook", async ({ page }) => {
     });
   });
   await page.goto("/#contact");
-  await page.getByRole("button", { name: "Copy email" }).click();
-  await expect(page.getByRole("status")).toContainText("Email copied");
+  await page.getByRole("button", { name: "Copiar email" }).click();
+  await expect(page.getByRole("status")).toContainText("¡Copiado!");
   await page.goto("/");
-  await page.getByRole("link", { name: /Read case study\s*:\s*From Pentaho to Airflow/ }).click({ modifiers: ["ControlOrMeta"] });
+  await page.getByRole("link", { name: "Leer caso de estudio: De Pentaho a Airflow", exact: true }).click({ modifiers: ["ControlOrMeta"] });
   // The hook emits locally; no provider, storage or network transport is installed.
   await expect(page.locator("html")).toHaveAttribute("data-last-portfolio-event", "project_open");
 });
 test("core content and navigation work without JavaScript", async ({ browser }) => {
-  const context = await browser.newContext({ javaScriptEnabled: false, reducedMotion: "reduce" });
+  const context = await browser.newContext({ javaScriptEnabled: false, reducedMotion: "reduce", viewport: { width: 390, height: 844 } });
   const page = await context.newPage();
   await page.goto("http://127.0.0.1:4321/");
-  await expect(page.locator(".hero-actions a[download]")).toBeVisible();
+  await expect(page.locator('.hero-actions a[href="#contact"]')).toBeVisible();
+  await expect(page.locator("#experience a[download]")).toHaveAttribute("href", "/CV_Data_Engineer_2026.pdf");
+  await page.locator('nav a[href="#services"]').click();
+  await expect(page).toHaveURL(/#services$/);
   await page.locator('nav a[href="#work"]').click();
   await expect(page).toHaveURL(/#work$/);
-  await page.getByRole("link", { name: /Read case study\s*:\s*From Pentaho to Airflow/ }).click();
+  await page.getByRole("link", { name: "Leer caso de estudio: De Pentaho a Airflow", exact: true }).click();
   await expect(page.getByRole("heading", { level: 1 })).toContainText("150–180");
+  await context.close();
+});
+
+test("language switch preserves the equivalent page and selected section", async ({ page }) => {
+  for (const route of spanishRoutes) {
+    await page.goto(route);
+    await page.getByRole("link", { name: "Ver esta página en inglés", exact: true }).click();
+    await expect(page).toHaveURL(`http://127.0.0.1:4321/en${route}`);
+    await expect(page.locator("html")).toHaveAttribute("lang", "en");
+    await page.getByRole("link", { name: "Read this page in Spanish", exact: true }).click();
+    await expect(page).toHaveURL(`http://127.0.0.1:4321${route}`);
+  }
+  await page.goto("/#services");
+  await page.getByRole("link", { name: "Ver esta página en inglés", exact: true }).click();
+  await expect(page).toHaveURL("http://127.0.0.1:4321/en/#services");
+  await expect(page.getByRole("heading", { name: "Services for Your Business", exact: true })).toBeVisible();
+  await expect(page.locator(".credentials li")).toHaveCount(4);
+  await page.getByRole("link", { name: "Read this page in Spanish", exact: true }).click();
+  await expect(page).toHaveURL("http://127.0.0.1:4321/#services");
+});
+
+for (const failure of [false, true]) {
+  test(`English clipboard feedback: ${failure ? "unavailable" : "copied"}`, async ({ page }) => {
+    await page.addInitScript((deny) => Object.defineProperty(navigator, "clipboard", {
+      value: { writeText: () => deny ? Promise.reject(new Error("Denied")) : Promise.resolve() },
+    }), failure);
+    await page.goto("/en/#contact");
+    await page.getByRole("button", { name: "Copy email" }).click();
+    await expect(page.getByRole("status")).toContainText(failure ? "Copy unavailable" : "Copied!");
+    await expect(page.locator(".email-link")).toHaveAttribute("href", "mailto:jesusmugo91@gmail.com");
+  });
+}
+
+test("language switch and English project navigation work without JavaScript", async ({ browser }) => {
+  const context = await browser.newContext({ javaScriptEnabled: false, reducedMotion: "reduce", viewport: { width: 390, height: 844 } });
+  const page = await context.newPage();
+  await page.goto("http://127.0.0.1:4321/");
+  await page.getByRole("link", { name: "Ver esta página en inglés", exact: true }).click();
+  await expect(page).toHaveURL("http://127.0.0.1:4321/en/");
+  await page.locator('nav a[href="#services"]').click();
+  await expect(page).toHaveURL(/\/en\/#services$/);
+  await page.getByRole("link", { name: "View case study: Budget optimiser", exact: true }).click();
+  await expect(page).toHaveURL(/\/en\/work\/pc-optimisation\/$/);
+  await expect(page.getByRole("heading", { level: 1 })).toHaveText("Price Automation & Budget Optimiser");
+  await page.getByRole("link", { name: "Read this page in Spanish", exact: true }).click();
+  await expect(page).toHaveURL(/\/work\/pc-optimisation\/$/);
   await context.close();
 });

@@ -1,16 +1,22 @@
 ---
-import { SITE_CONTENT } from "../data/portfolio";
-interface Props { workPage?: boolean }
-const { workPage = false } = Astro.props;
-const home = Astro.url.pathname === "/";
+import { getContent, getLocale, localizePath } from "../i18n";
+interface Props { workPage?: boolean; languagePath?: string }
+const { workPage = false, languagePath = Astro.url.pathname } = Astro.props;
+const locale = getLocale(Astro.url.pathname);
+const { site, ui } = getContent(locale);
+const homePath = localizePath("/", locale);
+const home = Astro.url.pathname === homePath;
+const otherLocale = locale === "es" ? "en" : "es";
 ---
 <header class="site-header" id="site-header">
   <div class="container header-inner">
-    <a class="wordmark" href={home ? "#home" : "/"} aria-label="Jesús Muñoz González — home">JM<span aria-hidden="true">.</span></a>
-    <nav aria-label="Primary">
-      {SITE_CONTENT.navItems.map(({ label, section }) => (
-        <a href={home ? `#${section}` : `/#${section}`} data-nav-section={section} aria-current={workPage && section === "work" ? "location" : undefined}>{label}</a>
+    <a class="wordmark" href={home ? "#home" : homePath} aria-label={`Jesús Muñoz González — ${ui.home}`}>JM<span aria-hidden="true">.</span></a>
+    <button class="button secondary menu-toggle" type="button" aria-controls="primary-navigation" aria-expanded="false" aria-label={ui.openMenu} data-open-label={ui.openMenu} data-close-label={ui.closeMenu} hidden>{ui.menu}<span aria-hidden="true">☰</span></button>
+    <nav id="primary-navigation" aria-label={ui.primaryNav}>
+      {site.navItems.map(({ label, section }) => (
+        <a href={home ? `#${section}` : `${homePath}#${section}`} data-nav-section={section} aria-current={workPage && section === "work" ? "location" : undefined}>{label}</a>
       ))}
+      <a class="language-switch" href={localizePath(languagePath, otherLocale)} hreflang={otherLocale} data-locale={otherLocale} aria-label={ui.languageSwitch}><span lang={otherLocale}>{otherLocale.toUpperCase()}</span></a>
     </nav>
   </div>
 </header>

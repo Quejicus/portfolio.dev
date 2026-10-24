@@ -5,4 +5,9 @@ export default defineConfig({
   site: "https://jesus-dataengineer-portfolio.netlify.app",
   trailingSlash: "always",
   compressHTML: true,
+  i18n: {
+    defaultLocale: "es",
+    locales: ["es", "en"],
+    routing: { prefixDefaultLocale: false },
+  },
 });

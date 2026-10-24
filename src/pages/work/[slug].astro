@@ -1,37 +1,9 @@
 ---
 import type { GetStaticPaths, InferGetStaticPropsType } from "astro";
-import Layout from "../../layouts/Layout.astro";
+import CaseStudyPage from "../../components/CaseStudyPage.astro";
 import { CASE_STUDIES } from "../../data/work";
-import { SITE_CONTENT } from "../../data/portfolio";
 export const getStaticPaths = (() => CASE_STUDIES.map((entry) => ({ params: { slug: entry.slug }, props: { entry } }))) satisfies GetStaticPaths;
 type Props = InferGetStaticPropsType<typeof getStaticPaths>;
 const { entry } = Astro.props;
-const related = CASE_STUDIES.filter((item) => item.slug !== entry.slug).slice(0, 2);
-const structuredData = {
-  "@context": "https://schema.org", "@type": "CreativeWork",
-  name: entry.title, description: entry.summary,
-  url: new URL(Astro.url.pathname, Astro.site).href,
-  author: { "@type": "Person", name: SITE_CONTENT.name, url: Astro.site?.href },
-  dateModified: SITE_CONTENT.lastUpdated.isoDate,
-  keywords: entry.stack.join(", "),
-};
 ---
-<Layout title={`${entry.shortTitle} | Jesús Muñoz González`} description={entry.summary} workPage={true} structuredData={structuredData}>
-  <main id="main-content" tabindex="-1" class="container case-page">
-    <a class="text-link back-link" href="/#work"><span aria-hidden="true">←</span> All work</a>
-    <header class="case-heading">
-      <p class="eyebrow">{entry.category}</p><h1>{entry.title}</h1><p class="lead muted">{entry.summary}</p>
-      <ul class="tags" aria-label="Technologies">{entry.stack.map((tech) => <li>{tech}</li>)}</ul>
-    </header>
-    <dl class="case-facts"><div><dt>My role</dt><dd>{entry.role}</dd></div><div><dt>{entry.metricLabel}</dt><dd class="accent">{entry.metric}</dd></div><div><dt>Last updated</dt><dd><time datetime={SITE_CONTENT.lastUpdated.isoDate}>{SITE_CONTENT.lastUpdated.display}</time></dd></div></dl>
-    {entry.image && <figure class="case-image"><img src={entry.image} alt={`Screenshot of ${entry.shortTitle}`} width={entry.imageWidth} height={entry.imageHeight} loading="lazy" decoding="async" /><figcaption>Project screenshot. The live product may evolve.</figcaption></figure>}
-    <figure class="case-diagram"><ol>{entry.diagram.map((step, index) => <li><span class="eyebrow">0{index + 1}</span><strong>{step}</strong>{index < entry.diagram.length - 1 && <span class="diagram-arrow" aria-hidden="true">→</span>}</li>)}</ol><figcaption>{entry.diagramCaption}</figcaption></figure>
-    <div class="case-body">
-      <div class="case-prose">{entry.sections.map((section) => <section><h2>{section.title}</h2>{section.paragraphs.map((paragraph) => <p>{paragraph}</p>)}</section>)}</div>
-      <aside class="case-note"><p class="eyebrow">About this overview</p><p>{entry.evidence}</p><a class="text-link" href={SITE_CONTENT.resume.href} download={SITE_CONTENT.resume.fileName} data-event="cv_download">Download CV (PDF) ↓</a>
-        {entry.liveUrl && <a class="button primary" href={entry.liveUrl} target="_blank" rel="noopener noreferrer" data-event="project_live">Visit live product ↗<span class="sr-only"> (opens in a new tab)</span></a>}
-      </aside>
-    </div>
-    <section class="case-next"><h2>Explore more work</h2><div>{related.map((item) => <a class="related-link" href={`/work/${item.slug}/`} data-event="project_open">{item.shortTitle}<span aria-hidden="true">→</span></a>)}</div><a class="text-link" href="/#contact">Discuss a data engineering opportunity →</a></section>
-  </main>
-</Layout>
+<CaseStudyPage entry={entry} />

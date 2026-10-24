@@ -1,0 +1,39 @@
+---
+import Layout from "../layouts/Layout.astro";
+import type { CaseStudy } from "../data/work";
+import { getContent, getLocale, localizePath } from "../i18n";
+interface Props { entry: CaseStudy }
+const { entry } = Astro.props;
+const locale = getLocale(Astro.url.pathname);
+const { site, ui, caseStudies } = getContent(locale);
+const homePath = localizePath("/", locale);
+const related = caseStudies.filter((item) => item.slug !== entry.slug).slice(0, 2);
+const structuredData = {
+  "@context": "https://schema.org", "@type": "CreativeWork",
+  name: entry.title, description: entry.summary,
+  url: new URL(Astro.url.pathname, Astro.site).href,
+  author: { "@type": "Person", name: site.name, url: new URL(homePath, Astro.site).href },
+  dateModified: site.lastUpdated.isoDate,
+  inLanguage: locale,
+  keywords: entry.stack.join(", "),
+};
+---
+<Layout title={`${entry.shortTitle} | Jesús Muñoz González`} description={entry.summary} workPage={true} structuredData={structuredData}>
+  <main id="main-content" tabindex="-1" class="container case-page">
+    <a class="text-link back-link" href={`${homePath}#work`}><span aria-hidden="true">←</span> {ui.case.back}</a>
+    <header class="case-heading">
+      <p class="eyebrow">{entry.category}</p><h1>{entry.title}</h1><p class="lead muted">{entry.summary}</p>
+      <ul class="tags" aria-label={ui.technologies}>{entry.stack.map((tech) => <li>{tech}</li>)}</ul>
+    </header>
+    <dl class="case-facts"><div><dt>{ui.case.role}</dt><dd>{entry.role}</dd></div><div><dt>{entry.metricLabel}</dt><dd class="accent">{entry.metric}</dd></div><div><dt>{ui.case.updated}</dt><dd><time datetime={site.lastUpdated.isoDate}>{site.lastUpdated.display}</time></dd></div></dl>
+    {entry.image && <figure class="case-image"><img src={entry.image} alt={`${ui.case.screenshot} ${entry.shortTitle}`} width={entry.imageWidth} height={entry.imageHeight} loading="lazy" decoding="async" /><figcaption>{ui.case.caption}</figcaption></figure>}
+    <figure class="case-diagram"><ol>{entry.diagram.map((step, index) => <li><span class="eyebrow">0{index + 1}</span><strong>{step}</strong>{index < entry.diagram.length - 1 && <span class="diagram-arrow" aria-hidden="true">→</span>}</li>)}</ol><figcaption>{entry.diagramCaption}</figcaption></figure>
+    <div class="case-body">
+      <div class="case-prose">{entry.sections.map((section) => <section><h2>{section.title}</h2>{section.paragraphs.map((paragraph) => <p>{paragraph}</p>)}</section>)}</div>
+      <aside class="case-note"><p class="eyebrow">{ui.case.about}</p><p>{entry.evidence}</p><a class="text-link" href={`${homePath}#experience`}>{ui.case.cv} <span aria-hidden="true">↓</span></a>
+        {entry.liveUrl && <a class="button primary" href={entry.liveUrl} target="_blank" rel="noopener noreferrer" data-event="project_live">{ui.case.live} <span aria-hidden="true">↗</span><span class="sr-only">{ui.newTab}</span></a>}
+      </aside>
+    </div>
+    <section class="case-next"><h2>{ui.case.related}</h2><div>{related.map((item) => <a class="related-link" href={localizePath(`/work/${item.slug}/`, locale)} data-event="project_open">{item.shortTitle}<span aria-hidden="true">→</span></a>)}</div><a class="text-link" href={`${homePath}#contact`}>{ui.hero.contact} <span aria-hidden="true">→</span></a></section>
+  </main>
+</Layout>

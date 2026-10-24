@@ -2,12 +2,12 @@
 
 ## Before a release
 
-1. Review professional claims against the latest CV. Keep approximate figures approximate; distinguish scope, runtime, throughput and business impact. Keep dbt and analytics-engineering positioning aligned with the current engagement and add specifics only when they are public-safe.
+1. Review professional claims against the latest owner-approved content and CV. Keep approximate figures approximate; distinguish scope, runtime, throughput and business impact. Keep the Spanish business-facing copy aligned with the web application, automation and data services offered.
 2. Update the reviewed date in `src/data/portfolio.ts` only when content has actually been checked. Do not make every build look like a content update.
-3. Reconfirm “Present”, availability, the 4+ years claim, language level and credential dates. The tenure wording is intentionally manually verified rather than calculated from calendar time across career gaps.
+3. Reconfirm “Actualidad”, availability, the 4+ years claim, language level and credential dates. The tenure wording is intentionally manually verified rather than calculated from calendar time across career gaps.
 4. If replacing the public CV, inspect the PDF and confirm public disclosure of all contact information. Keep the existing URL or update links and tests together.
 5. Run `npm ci`, `npm run build`, `npm test` and `npm run budget`. Install the Chromium and WebKit engines when setting up a new machine.
-6. Inspect the homepage and all work pages at phone, tablet and desktop widths; check keyboard focus, reduced motion, anchors and email copy feedback.
+6. Inspect both language homepages and all work pages at phone, tablet and desktop widths; check the language switch, keyboard focus, reduced motion, anchors and localised email copy feedback. Keep Spanish and English claims aligned when editing content.
 7. After visual changes, run `npm run assets:screenshot`. After editing `assets/portfolio-og.svg`, run `npm run assets:og`. Inspect both outputs, then rebuild.
 8. Check `git diff --check`, the file diff, and `npm audit`. Review dependency major changes against Astro’s migration guides.
 9. Commit and push only when authorised. After Netlify completes, verify live routes, the PDF, sitemap, share image and a hard-refreshed homepage.

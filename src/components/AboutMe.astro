@@ -1,22 +1,24 @@
 ---
-import { SITE_CONTENT } from "../data/portfolio";
+import { getContent, getLocale } from "../i18n";
+const { site, ui } = getContent(getLocale(Astro.url.pathname));
+const about = ui.about;
 ---
 <div class="about-grid">
   <div class="about-copy">
-    <p class="lead">Analytical by nature.<br />Pragmatic in delivery.</p>
-    <p>I’m a Data Engineer based in Spain. I care about systems that teams can understand, operate and improve—not just pipelines that run once.</p>
-    <p>My work combines cloud data engineering with testing, clear communication and maintainable delivery. I also explore AI-assisted development through personal products.</p>
-    <p class="muted">Away from the keyboard: chess, programming projects, and new challenges.</p>
+    <p class="lead">{about.lead}</p>
+    <p>{about.introduction}</p>
+    <p>{about.background}</p>
+    <p class="muted">{about.personal}</p>
     <dl class="facts">
-      <div><dt>Languages</dt><dd>Spanish · native<br />English · B2</dd></div>
-      <div><dt>Education</dt><dd>Computer Engineering · UCLM<br /><time datetime="2011">2011</time>–<time datetime="2016">2016</time><br />Data Science Bootcamp · NEOLAND<br /><time datetime="2021-09">September</time>–<time datetime="2021-12">December 2021</time></dd></div>
+      <div><dt>{about.languages}</dt><dd>{about.spanish}<br />{about.english}</dd></div>
+      <div><dt>{about.education}</dt><dd>{about.degree}<br /><time datetime="2011">2011</time> – <time datetime="2016">2016</time><br />Data Science Bootcamp · NEOLAND<br /><time datetime="2021-09">{about.september}</time> – <time datetime="2021-12">{about.december2021}</time></dd></div>
     </dl>
   </div>
   <div class="credentials">
-    <p class="eyebrow">Continued learning</p><h3>Credentials earned</h3>
-    <ul>{SITE_CONTENT.credentials.map((credential) => (
+    <p class="eyebrow">{about.learning}</p><h3>{about.credentials}</h3>
+    <ul>{site.credentials.map((credential) => (
       <li><h4>{credential.title}</h4><p>{credential.issuer} <span aria-hidden="true">/</span> <time datetime={credential.date}>{credential.label}</time></p></li>
     ))}</ul>
-    <p class="small muted">Dates indicate when each credential was earned.</p>
+    <p class="small muted">{about.credentialDates}</p>
   </div>
 </div>

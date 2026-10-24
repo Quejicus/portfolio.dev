@@ -1,8 +1,9 @@
 ---
-import { SITE_CONTENT } from "../data/portfolio";
+import { getContent, getLocale } from "../i18n";
+const { site, ui } = getContent(getLocale(Astro.url.pathname));
 ---
 <ol class="experience-list">
-  {SITE_CONTENT.experience.map((entry) => (
+  {site.experience.map((entry) => (
     <li class="experience-row">
       <div class="experience-meta">
         <p class="date-range"><time datetime={entry.start}>{entry.startLabel}</time> — {entry.end ? <time datetime={entry.end}>{entry.endLabel}</time> : entry.endLabel}</p>
@@ -12,7 +13,7 @@ import { SITE_CONTENT } from "../data/portfolio";
         <h3>{entry.role}</h3>
         <p class="muted">{entry.summary}</p>
         <ul class="bullet-list">{entry.highlights.map((highlight) => <li>{highlight}</li>)}</ul>
-        {entry.additional.length > 0 && <details><summary>More contributions</summary><ul class="bullet-list">{entry.additional.map((highlight) => <li>{highlight}</li>)}</ul></details>}
+        {entry.additional.length > 0 && <details><summary>{ui.experience.more}</summary><ul class="bullet-list">{entry.additional.map((highlight) => <li>{highlight}</li>)}</ul></details>}
       </div>
     </li>
   ))}

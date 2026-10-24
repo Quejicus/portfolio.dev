@@ -3,7 +3,7 @@ import "@fontsource-variable/onest";
 import "../styles/global.css";
 import Header from "../components/Header.astro";
 import Footer from "../components/Footer.astro";
-import { SITE_CONTENT as site } from "../data/portfolio";
+import { getContent, getLocale, localizePath, SUPPORTED_LOCALES } from "../i18n";
 interface Props {
   title: string;
   description: string;
@@ -12,31 +12,40 @@ interface Props {
   structuredData?: Record<string, unknown>;
 }
 const { title, description, workPage = false, noindex = false, structuredData } = Astro.props;
+const locale = getLocale(Astro.url.pathname);
+const { site, ui } = getContent(locale);
+const homePath = localizePath("/", locale);
+const ogLocale = locale === "es" ? "es_ES" : "en_GB";
 if (!Astro.site) throw new Error("Configure the production site URL in astro.config.mjs.");
 const canonical = new URL(Astro.url.pathname, Astro.site).href;
-const image = new URL("/social/portfolio-og.png", Astro.site).href;
-const imageAlt = "Jesús Muñoz González — Analytics & Data Engineer. dbt, SQL and cloud data platforms. Based in Spain.";
+const image = new URL(locale === "es" ? "/social/portfolio-og.png" : "/social/portfolio-og-en.png", Astro.site).href;
+const imageAlt = ui.imageAlt;
 const person = {
   "@context": "https://schema.org", "@type": "Person", "@id": new URL("/#person", Astro.site).href,
-  name: site.name, jobTitle: "Analytics & Data Engineer", url: Astro.site.href,
+  name: site.name, jobTitle: ui.jobTitle, url: new URL(homePath, Astro.site).href,
   image: new URL("/img/profile_pic.webp", Astro.site).href,
   email: `mailto:${site.email}`, address: { "@type": "PostalAddress", addressCountry: "ES" },
   sameAs: [site.linkedin, site.github],
-  knowsAbout: ["Analytics Engineering", "dbt", "SQL", "Data Engineering", "Apache Airflow", "Azure", "Databricks"],
+  knowsAbout: ui.knowsAbout,
 };
-const website = { "@context": "https://schema.org", "@type": "WebSite", name: site.metaTitle, url: Astro.site.href, inLanguage: "en" };
-const schemas = [person, ...(Astro.url.pathname === "/" ? [website] : []), ...(structuredData ? [structuredData] : [])];
+const website = { "@context": "https://schema.org", "@type": "WebSite", name: site.metaTitle, url: new URL(homePath, Astro.site).href, inLanguage: locale };
+const schemas = [person, ...(Astro.url.pathname === homePath ? [website] : []), ...(structuredData ? [structuredData] : [])];
 ---
 <!doctype html>
-<html lang="en">
+<html lang={locale}>
   <head>
     <meta charset="UTF-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="description" content={description} /><meta name="theme-color" content="#090f19" />
     {noindex && <meta name="robots" content="noindex" />}
     <link rel="canonical" href={canonical} /><link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    {!noindex && <>
+      {SUPPORTED_LOCALES.map((language) => <link rel="alternate" hreflang={language} href={new URL(localizePath(Astro.url.pathname, language), Astro.site).href} />)}
+      <link rel="alternate" hreflang="x-default" href={new URL(localizePath(Astro.url.pathname, "es"), Astro.site).href} />
+    </>}
     <meta property="og:title" content={title} /><meta property="og:description" content={description} />
     <meta property="og:type" content="website" /><meta property="og:url" content={canonical} />
-    <meta property="og:site_name" content="Jesús Muñoz González · Analytics & Data Engineer" /><meta property="og:locale" content="en_GB" />
+    <meta property="og:site_name" content={site.metaTitle} /><meta property="og:locale" content={ogLocale} />
+    {!noindex && <meta property="og:locale:alternate" content={locale === "es" ? "en_GB" : "es_ES"} />}
     <meta property="og:image" content={image} /><meta property="og:image:width" content="1200" /><meta property="og:image:height" content="630" />
     <meta property="og:image:type" content="image/png" /><meta property="og:image:alt" content={imageAlt} />
     <meta name="twitter:card" content="summary_large_image" /><meta name="twitter:title" content={title} /><meta name="twitter:description" content={description} />
@@ -45,8 +54,8 @@ const schemas = [person, ...(Astro.url.pathname === "/" ? [website] : []), ...(s
     {schemas.map((schema) => <script is:inline type="application/ld+json" set:html={JSON.stringify(schema).replace(/</g, "\\u003c")} />)}
   </head>
   <body>
-    <a class="skip-link" href="#main-content">Skip to content</a>
-    <Header workPage={workPage} /><slot /><Footer />
+    <a class="skip-link" href="#main-content">{ui.skip}</a>
+    <Header workPage={workPage} languagePath={noindex ? "/" : undefined} /><slot /><Footer />
     <script>import "../scripts/events";</script>
   </body>
 </html>

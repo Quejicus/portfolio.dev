@@ -1,18 +1,19 @@
 ---
-import { SITE_CONTENT as site } from "../data/portfolio";
+import { getContent, getLocale } from "../i18n";
+const { site, ui } = getContent(getLocale(Astro.url.pathname));
 ---
 <div class="contact-panel">
-  <div><p class="eyebrow">Contact</p>
-    <h2>Let’s build something<br />that works at scale<span class="accent">.</span></h2>
-    <p class="muted">Open to data engineering opportunities and thoughtful technical conversations. Based in Spain, available for remote work.</p>
+  <div><p class="eyebrow">{ui.contact.eyebrow}</p>
+    <h2>{ui.contact.title}<span class="accent">?</span></h2>
+    <p class="muted">{ui.contact.description}</p>
   </div>
   <div class="contact-actions">
     <a class="email-link" href={`mailto:${site.email}`} data-event="contact_email">{site.email}<span aria-hidden="true">↗</span></a>
     <div class="actions">
-      <button class="button secondary" id="copy-email" data-email={site.email} hidden>Copy email <span aria-hidden="true">⧉</span></button>
-      <a class="button secondary" href={site.linkedin} target="_blank" rel="noopener noreferrer" data-event="contact_link">LinkedIn <span aria-hidden="true">↗</span><span class="sr-only"> (opens in a new tab)</span></a>
+      <button class="button secondary" type="button" id="copy-email" data-email={site.email} data-success={ui.contact.copied} data-failure={ui.contact.copyFailed} hidden>{ui.contact.copy} <span aria-hidden="true">⧉</span></button>
+      <a class="button secondary" href={site.linkedin} target="_blank" rel="noopener noreferrer" data-event="contact_link">LinkedIn <span aria-hidden="true">↗</span><span class="sr-only">{ui.newTab}</span></a>
     </div>
-    <p class="copy-status small" id="copy-status" role="status" aria-live="polite"></p>
+    <p class="copy-status small" id="copy-status" role="status" aria-live="polite" aria-atomic="true"></p>
   </div>
 </div>
 <script>
@@ -23,12 +24,16 @@ import { SITE_CONTENT as site } from "../data/portfolio";
     copyButton.addEventListener("click", async () => {
       const email = copyButton.dataset.email;
       if (!email) return;
+      copyButton.disabled = true;
+      status.textContent = "";
       try {
         if (!navigator.clipboard) throw new Error("Clipboard unavailable");
         await navigator.clipboard.writeText(email);
-        status.textContent = "Email copied. Ready to paste.";
+        status.textContent = copyButton.dataset.success ?? "";
       } catch {
-        status.textContent = "Copy unavailable. Select the email address above, or use the email link.";
+        status.textContent = copyButton.dataset.failure ?? "";
+      } finally {
+        copyButton.disabled = false;
       }
     });
   }
