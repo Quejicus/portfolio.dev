@@ -39,6 +39,7 @@ export const CASE_STUDIES: CaseStudy[] = [
       { title: "Estado actual", paragraphs: ["El proyecto está en desarrollo y se puede visitar en realidadmultipolar.com. Este caso describe su enfoque actual, no resultados de alcance, uso o impacto."] },
     ],
     evidence: "Proyecto personal en desarrollo. El caso recoge el enfoque editorial y técnico de la plataforma, sin presentar métricas de uso ni resultados medidos.",
+    image: "/projects/realidad_multipolar_screenshot.webp", imageWidth: 1280, imageHeight: 800,
     liveUrl: "https://realidadmultipolar.com/",
   },
   {

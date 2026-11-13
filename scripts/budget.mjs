@@ -24,7 +24,7 @@ for (const check of budgets) {
   console.log(`${check.name}: ${check.size} / ${check.limit} bytes`);
   if (check.size > check.limit) throw new Error(`${check.name} exceeded its budget`);
 }
-for (const file of ["projects/micalculadora_screenshot.webp", "projects/optimizing_project.webp", "projects/portfolio_current_screenshot.webp", "social/portfolio-og.png", "social/portfolio-og-en.png"]) {
+for (const file of ["projects/realidad_multipolar_screenshot.webp", "projects/micalculadora_screenshot.webp", "projects/optimizing_project.webp", "projects/portfolio_current_screenshot.webp", "social/portfolio-og.png", "social/portfolio-og-en.png"]) {
   const size = (await stat(`dist/${file}`)).size;
   const image = await sharp(`dist/${file}`).metadata();
   if (size > 160000) throw new Error(`${file} exceeds 160 kB`);
