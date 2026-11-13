@@ -5,6 +5,12 @@
 [build.environment]
   NODE_VERSION = "24"
 
+[[redirects]]
+  from = "/en/*"
+  to = "/en/404/index.html"
+  status = 404
+  force = false
+
 [[headers]]
   for = "/*"
   [headers.values]

@@ -11,7 +11,7 @@
 6. Inspect both language homepages and all work pages at phone, tablet and desktop widths; check the language switch, keyboard focus, reduced motion, anchors and localised email copy feedback. Keep Spanish and English claims aligned when editing content.
 7. After visual changes, run `npm run assets:screenshot`. After editing `assets/portfolio-og.svg`, run `npm run assets:og`. Inspect both outputs, then rebuild.
 8. Check `git diff --check`, the file diff, and `npm audit`. Review dependency major changes against Astro’s migration guides.
-9. Commit and push only when authorised. After Netlify completes, verify live routes, the PDF, sitemap, share image and a hard-refreshed homepage.
+9. Commit and push only when authorised. After Netlify completes, verify live routes, the PDF, sitemap, share image and a hard-refreshed homepage. Check missing Spanish and English URLs return 404 with localised recovery links, keep the requested URL, and do not intercept existing English pages. Astro preview cannot verify Netlify redirect handling.
 
 ## Discovery and measurement
 

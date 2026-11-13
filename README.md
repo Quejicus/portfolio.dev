@@ -49,6 +49,10 @@ On mobile, JavaScript enhances the visible navigation with a disclosure button. 
 
 Netlify serves `dist` using `npm run build` and Node 24, configured in `netlify.toml`. GitHub Actions checks pull requests and pushes to main. This work does not change hosting providers.
 
+Missing `/en/*` paths use the generated `/en/404/index.html` with HTTP 404 and English recovery links. The fallback is unforced: existing English files take precedence. Spanish errors keep the root `404.html`; both error pages are `noindex` and work without JavaScript.
+
+Astro preview does not process Netlify redirects. Local tests check the generated English document and hosting declaration, not missing-path routing on Netlify. After an authorised deployment, confirm English missing paths retain their URL and HTTP 404, while existing English pages still return 200.
+
 Before release, follow [the maintenance checklist](docs/maintenance.md). A local implementation is not deployed until its changes are committed, pushed and successfully built by Netlify.
 
 ## Analytics
