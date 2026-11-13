@@ -1,7 +1,44 @@
 import { test, expect, type Page } from "@playwright/test";
 import AxeBuilder from "@axe-core/playwright";
-const spanishRoutes = ["/", "/work/airflow-migration/", "/work/pyspark-optimisation/", "/work/financial-calculator/", "/work/pc-optimisation/"];
+const spanishRoutes = ["/", "/work/realidad-multipolar/", "/work/airflow-migration/", "/work/pyspark-optimisation/", "/work/financial-calculator/", "/work/pc-optimisation/"];
 const routes = [...spanishRoutes, ...spanishRoutes.map((route) => `/en${route}`)];
+for (const version of [
+  { home: "/", otherHome: "/en/", status: "En desarrollo", otherStatus: "In development", switchLabel: "Ver esta página en inglés" },
+  { home: "/en/", otherHome: "/", status: "In development", otherStatus: "En desarrollo", switchLabel: "Read this page in Spanish" },
+]) {
+  test(`Realidad Multipolar leads the projects with development status and navigation: ${version.home}`, async ({ page }) => {
+    const caseUrl = `${version.home}work/realidad-multipolar/`;
+    const otherCaseUrl = `${version.otherHome}work/realidad-multipolar/`;
+    await page.goto(version.home);
+    const card = page.locator(".work-card").first();
+    const title = card.locator("h3 a");
+    await expect(title).toHaveAccessibleName("Realidad Multipolar");
+    await expect(title).toHaveAttribute("href", caseUrl);
+    await expect(card.locator(".text-link")).toHaveAttribute("href", caseUrl);
+    await expect(card.locator(".work-stat > span")).toHaveText("WIP");
+    await expect(card.locator(".work-stat > p")).toHaveText(version.status);
+    await expect(card.locator("img")).toHaveCount(0);
+    await title.click();
+    await expect(page).toHaveURL(`http://127.0.0.1:4321${caseUrl}`);
+    await expect(page.getByRole("heading", { level: 1 })).toHaveText("Realidad Multipolar");
+    await expect(page.locator(".case-facts dt").filter({ hasText: version.status })).toHaveText(version.status);
+    await expect(page.locator(".case-facts .accent")).toHaveText("WIP");
+    const liveLink = page.locator('.case-note a[data-event="project_live"]');
+    await expect(liveLink).toHaveAttribute("href", "https://realidadmultipolar.com/");
+    await expect(liveLink).toHaveAttribute("target", "_blank");
+    await expect(liveLink).toHaveAttribute("rel", "noopener noreferrer");
+    await expect(page.locator(".case-image")).toHaveCount(0);
+    await page.getByRole("link", { name: version.switchLabel, exact: true }).click();
+    await expect(page).toHaveURL(`http://127.0.0.1:4321${otherCaseUrl}`);
+    await expect(page.getByRole("heading", { level: 1 })).toHaveText("Realidad Multipolar");
+    await expect(page.locator(".case-facts dt").filter({ hasText: version.otherStatus })).toHaveText(version.otherStatus);
+    await page.locator(".back-link").click();
+    await expect(page).toHaveURL(`http://127.0.0.1:4321${version.otherHome}#work`);
+    await page.goto(caseUrl);
+    await page.locator(".back-link").click();
+    await expect(page).toHaveURL(`http://127.0.0.1:4321${version.home}#work`);
+  });
+}
 async function openMobileMenu(page: Page) {
   const toggle = page.locator(".menu-toggle");
   if (await toggle.isVisible() && await toggle.getAttribute("aria-expanded") === "false") await toggle.click();
@@ -86,7 +123,7 @@ test("skip link, legacy anchors and project navigation", async ({ page, browserN
   }
   await page.goto("/#work");
   expect(await page.locator(".work-copy h3 a").evaluateAll((links) => links.map((link) => link.getAttribute("href")))).toEqual([
-    "/work/financial-calculator/", "/work/pc-optimisation/", "/work/airflow-migration/", "/work/pyspark-optimisation/",
+    "/work/realidad-multipolar/", "/work/financial-calculator/", "/work/pc-optimisation/", "/work/airflow-migration/", "/work/pyspark-optimisation/",
   ]);
   await expect(page.locator(".mini-flow")).toHaveText(["PENTAHO→AIRFLOW", "PYSPARK→HBASE"]);
   await page.getByRole("link", { name: "Leer caso de estudio: De Pentaho a Airflow", exact: true }).click();

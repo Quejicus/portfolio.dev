@@ -22,6 +22,26 @@ export interface CaseStudy {
 }
 export const CASE_STUDIES: CaseStudy[] = [
   {
+    slug: "realidad-multipolar",
+    category: "Proyecto personal / Plataforma editorial",
+    title: "Realidad Multipolar",
+    shortTitle: "Realidad Multipolar",
+    linkLabel: "Ver proyecto: Realidad Multipolar",
+    summary: "Plataforma editorial en desarrollo que compara cómo distintas perspectivas geopolíticas cubren un mismo acontecimiento y enlaza las afirmaciones con sus fuentes.",
+    metric: "WIP", metricLabel: "En desarrollo",
+    role: "Proyecto personal en desarrollo",
+    stack: ["TypeScript", "Cloudflare Workers", "Procesamiento asistido por IA"],
+    diagram: ["Fuentes y perspectivas", "Recopilación y borradores con IA", "Cobertura con enlaces a fuentes"],
+    diagramCaption: "Vista simplificada del enfoque editorial de la plataforma en desarrollo.",
+    sections: [
+      { title: "El proyecto", paragraphs: ["Realidad Multipolar es una plataforma editorial que organiza la cobertura de un mismo acontecimiento por perspectiva geopolítica y fuente. La propuesta permite comparar cómo se presenta un tema desde distintos enfoques."] },
+      { title: "El enfoque técnico", paragraphs: ["La plataforma utiliza TypeScript y Cloudflare Workers, con recopilación y redacción de borradores asistidas por IA. Las afirmaciones se enlazan con sus fuentes para que el lector pueda consultar su procedencia."] },
+      { title: "Estado actual", paragraphs: ["El proyecto está en desarrollo y se puede visitar en realidadmultipolar.com. Este caso describe su enfoque actual, no resultados de alcance, uso o impacto."] },
+    ],
+    evidence: "Proyecto personal en desarrollo. El caso recoge el enfoque editorial y técnico de la plataforma, sin presentar métricas de uso ni resultados medidos.",
+    liveUrl: "https://realidadmultipolar.com/",
+  },
+  {
     slug: "financial-calculator",
     category: "Producto digital / Desarrollo web con IA",
     title: "Mi Calculadora Financiera: de la idea al lanzamiento",

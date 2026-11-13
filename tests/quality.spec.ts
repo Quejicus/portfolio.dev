@@ -24,13 +24,17 @@ for (const version of versions) {
         })),
         portrait: document.querySelector(".identity img")!.getBoundingClientRect().toJSON(),
       }));
-      expect(geometry.cards).toHaveLength(4);
-      for (let index = 0; index < geometry.cards.length; index += 2) {
+      expect(geometry.cards).toHaveLength(5);
+      for (let index = 0; index + 1 < geometry.cards.length; index += 2) {
         const [left, right] = geometry.cards.slice(index, index + 2);
         expect(Math.abs(left.top - right.top)).toBeLessThan(1);
         expect(Math.abs(left.bottom - right.bottom)).toBeLessThan(1);
         expect(Math.abs(left.ctaBottom - right.ctaBottom)).toBeLessThan(1);
       }
+      const lastCard = geometry.cards[4];
+      expect(lastCard.top).toBeGreaterThanOrEqual(geometry.cards[3].bottom);
+      expect(lastCard.ctaBottom).toBeGreaterThan(lastCard.top);
+      expect(lastCard.ctaBottom).toBeLessThan(lastCard.bottom);
       expect(Math.max(...geometry.services.map((service) => service.height)) - Math.min(...geometry.services.map((service) => service.height))).toBeLessThan(1);
       expect(Math.max(...geometry.services.map((service) => service.paragraphTop)) - Math.min(...geometry.services.map((service) => service.paragraphTop))).toBeLessThan(1);
       expect(Math.abs(geometry.portrait.width - geometry.portrait.height)).toBeLessThan(1);
@@ -88,7 +92,7 @@ for (const version of versions) {
   test(`project routes, logo, back link and actual CV download: ${version.locale}`, async ({ page }) => {
     await page.goto(version.home);
     const projectUrls = await page.locator(".work-copy h3 a").evaluateAll((links) => links.map((link) => link.getAttribute("href")!));
-    expect(projectUrls).toHaveLength(4);
+    expect(projectUrls).toHaveLength(5);
     for (const [index, url] of projectUrls.entries()) {
       await page.goto(version.home);
       await page.locator(".work-copy h3 a").nth(index).click();
@@ -112,6 +116,15 @@ for (const version of versions) {
   test(`case studies reflow on small phones: ${version.locale}`, async ({ page }) => {
     await page.setViewportSize({ width: 320, height: 844 });
     await page.goto(version.home);
+    await page.evaluate(() => document.fonts.ready);
+    const lastCard = page.locator(".work-card").nth(4);
+    await lastCard.scrollIntoViewIfNeeded();
+    await expect(lastCard.locator("h3 a")).toBeVisible();
+    await expect(lastCard.locator(".text-link")).toBeVisible();
+    const bounds = await lastCard.boundingBox();
+    expect(bounds!.x).toBeGreaterThanOrEqual(0);
+    expect(bounds!.x + bounds!.width).toBeLessThanOrEqual(320);
+    expect(await page.evaluate(() => document.documentElement.scrollWidth > innerWidth)).toBe(false);
     const projectUrls = await page.locator(".work-copy h3 a").evaluateAll((links) => links.map((link) => link.getAttribute("href")!));
     for (const url of projectUrls) {
       await page.goto(url);

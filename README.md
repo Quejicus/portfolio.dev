@@ -4,7 +4,7 @@
 
 ![Current portfolio homepage](./public/projects/portfolio_current_screenshot.webp)
 
-A bilingual static Astro site for businesses looking for custom web applications, process automation and data solutions. Spanish remains at `/`; English is available at `/en/`, including all four case studies. Independent products lead the project selection, followed by enterprise Airflow and PySpark case studies. Professional experience and credentials support the services; the CV download is available in Experience.
+A bilingual static Astro site for businesses looking for custom web applications, process automation and data solutions. Spanish remains at `/`; English is available at `/en/`, including all five case studies. Realidad Multipolar, a personal editorial platform in development, leads the project selection, followed by enterprise Airflow and PySpark case studies. Professional experience and credentials support the services; the CV download is available in Experience.
 
 ## Development
 
@@ -31,7 +31,7 @@ The build runs a strict Astro check and refuses a zero-file/partial-source check
 ## Content and assets
 
 - `src/data/portfolio.ts` and `portfolio.en.ts`: Spanish and English professional content; shared contact details, CV and credential metadata come from the Spanish source.
-- `src/data/work.ts` and `work.en.ts`: the four project overviews and their English translations; each gets a route and sitemap entry in both languages. Missing English case translations fail the build.
+- `src/data/work.ts` and `work.en.ts`: the five project overviews and their English translations; each gets a route and sitemap entry in both languages. Missing English case translations fail the build.
 - `src/i18n/`: typed interface copy, supported locales and path helpers. `HomePage.astro` and `CaseStudyPage.astro` share the page structure between languages.
 - `astro.config.mjs`: the single production origin used for canonical URLs, structured data, sitemap and robots.
 - `src/styles/global.css`: shared design tokens and responsive layouts. Native CSS; no client framework or page-transition router.

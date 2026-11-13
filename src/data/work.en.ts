@@ -3,6 +3,24 @@ import { CASE_STUDIES, type CaseStudy } from "./work";
 type CaseTranslation = Omit<CaseStudy, "slug" | "image" | "imageWidth" | "imageHeight" | "liveUrl" | "previewFlow">;
 
 const translations: Record<string, CaseTranslation> = {
+  "realidad-multipolar": {
+    category: "Personal Project / Editorial Platform",
+    title: "Realidad Multipolar",
+    shortTitle: "Realidad Multipolar",
+    linkLabel: "View project: Realidad Multipolar",
+    summary: "An editorial platform in development comparing how different geopolitical perspectives cover the same event, with claims linked to their sources.",
+    metric: "WIP", metricLabel: "In development",
+    role: "Personal project in development",
+    stack: ["TypeScript", "Cloudflare Workers", "AI-assisted processing"],
+    diagram: ["Sources and perspectives", "AI-assisted collection and drafting", "Coverage linked to sources"],
+    diagramCaption: "A simplified overview of the editorial approach of the platform in development.",
+    sections: [
+      { title: "The project", paragraphs: ["Realidad Multipolar is an editorial platform organising coverage of the same event by geopolitical perspective and source. It lets readers compare how a topic is presented from different viewpoints."] },
+      { title: "The technical approach", paragraphs: ["The platform uses TypeScript and Cloudflare Workers, with AI-assisted collection and drafting. Claims are linked to their sources so readers can consult the original material."] },
+      { title: "Current status", paragraphs: ["The project is in development and can be visited at realidadmultipolar.com. This case study describes its current approach, not reach, usage or impact results."] },
+    ],
+    evidence: "Personal project in development. This case study outlines the platform's editorial and technical approach, without presenting usage metrics or measured outcomes.",
+  },
   "financial-calculator": {
     category: "Digital Product / AI-Assisted Web Development",
     title: "Mi Calculadora Financiera: from idea to launch",
