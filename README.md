@@ -8,7 +8,7 @@ A bilingual static Astro site for businesses looking for custom web applications
 
 ## Development
 
-Use Node 24 (see `.nvmrc`; minimum supported: 22.12).
+Use Node 24 (see `.nvmrc`; minimum supported: 22.23.4, matching Astro's requirement).
 
 ```sh
 npm ci
