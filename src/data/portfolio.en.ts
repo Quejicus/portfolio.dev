@@ -4,7 +4,7 @@ export const EN_SITE_CONTENT: typeof SITE_CONTENT = {
   ...SITE_CONTENT,
   metaTitle: "Jesús Muñoz González | AI-Assisted Web Development, Automation & Data",
   metaDescription: "I help small and medium-sized businesses turn ideas and manual processes into custom web applications, Python/API automations and business dashboards.",
-  lastUpdated: { ...SITE_CONTENT.lastUpdated, display: "October 2026" },
+  lastUpdated: { ...SITE_CONTENT.lastUpdated, display: "November 2026" },
   navItems: [
     { label: "Projects", section: "work" }, { label: "Services", section: "services" },
     { label: "Experience", section: "experience" }, { label: "About", section: "about" },
@@ -42,7 +42,7 @@ export const EN_SITE_CONTENT: typeof SITE_CONTENT = {
         "Moeve (CEPSA): Built 6–8 serverless microservices with Python and AWS Lambda for an internal data portal, integrating DynamoDB, Athena, CloudWatch and REST APIs.",
         "CaixaBank: Created 4–5 data models and dashboards with BigQuery, dbt and Looker to monitor operational and business KPIs.",
         "Junta de Andalucía: Optimised 5–6 large-scale PySpark and HBase pipelines, reducing processing times by approximately 60%.",
-        "Cabildo de Tenerife: Technically led the migration of 150–180 ETL workflows from Pentaho to Apache Airflow, improving performance and maintainability by approximately 80%, alongside Power BI reporting.",
+        "Cabildo de Tenerife: Technically led the migration of 150–180 ETL workflows from Pentaho to Apache Airflow, with a reported improvement of approximately 80% in performance and maintainability, alongside Power BI reporting.",
       ],
       additional: [],
     },

@@ -41,9 +41,9 @@ export const ES_UI = {
     copy: "Copiar email", copied: "¡Copiado! Ya puedes pegar el email.",
     copyFailed: "No se ha podido copiar. Selecciona la dirección de arriba o utiliza el enlace de correo.",
   },
-  footer: { updated: "Contenido actualizado en", source: "Hecho con Astro · código fuente", top: "Volver arriba" },
+  footer: { updated: "Contenido revisado en", source: "Hecho con Astro · código fuente", top: "Volver arriba" },
   case: {
-    back: "Todos los proyectos", role: "Mi rol", updated: "Última actualización", screenshot: "Captura de",
+    back: "Todos los proyectos", role: "Mi rol", updated: "Última revisión", screenshot: "Captura de",
     caption: "Captura del proyecto. El producto publicado puede evolucionar.",
     about: "Sobre este caso", cv: "Ver experiencia profesional y CV", live: "Visitar la aplicación", related: "Más proyectos y soluciones",
   },
@@ -92,9 +92,9 @@ export const EN_UI: typeof ES_UI = {
     copy: "Copy email", copied: "Copied! Ready to paste.",
     copyFailed: "Copy unavailable. Select the email address above, or use the email link.",
   },
-  footer: { updated: "Content updated in", source: "Built with Astro · source", top: "Back to top" },
+  footer: { updated: "Content reviewed in", source: "Built with Astro · source", top: "Back to top" },
   case: {
-    back: "All projects", role: "My role", updated: "Last updated", screenshot: "Screenshot of",
+    back: "All projects", role: "My role", updated: "Last reviewed", screenshot: "Screenshot of",
     caption: "Project screenshot. The live product may evolve.",
     about: "About this case study", cv: "View professional experience and CV", live: "Visit the application", related: "More projects and solutions",
   },

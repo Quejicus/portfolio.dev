@@ -2,7 +2,7 @@ export const SITE_CONTENT = {
   name: "Jesús Muñoz González",
   metaTitle: "Jesús Muñoz González | Desarrollo web con IA, automatización y datos",
   metaDescription: "Desarrollo aplicaciones web a medida, automatizo tareas con Python y APIs y convierto datos en cuadros de mando para negocios y pymes.",
-  lastUpdated: { display: "octubre de 2026", isoDate: "2026-10-24" },
+  lastUpdated: { display: "noviembre de 2026", isoDate: "2026-11-13" },
   email: "jesusmugo91@gmail.com",
   linkedin: "https://linkedin.com/in/jesus-data-engineer",
   github: "https://github.com/Quejicus",

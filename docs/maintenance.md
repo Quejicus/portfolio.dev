@@ -3,7 +3,8 @@
 ## Before a release
 
 1. Review professional claims against the latest owner-approved content and CV. Keep approximate figures approximate; distinguish scope, runtime, throughput and business impact. Keep the Spanish business-facing copy aligned with the web application, automation and data services offered.
-2. Update the reviewed date in `src/data/portfolio.ts` only when content has actually been checked. Do not make every build look like a content update.
+2. Update the manually reviewed date in `src/data/portfolio.ts` only when content has actually been checked, keeping both language labels aligned. The existing `lastUpdated` field records a review, not a per-page modification.
+   Visible dates say “reviewed”. Structured-data `dateModified` and sitemap `lastmod` are omitted until reliable per-page modification dates are maintained; never derive them from the review date or build time.
 3. Reconfirm “Actualidad”, availability, the 4+ years claim, language level and credential dates. The tenure wording is intentionally manually verified rather than calculated from calendar time across career gaps.
 4. If replacing the public CV, inspect the PDF and confirm public disclosure of all contact information. Keep the existing URL or update links and tests together.
 5. Run `npm ci`, `npm run build`, `npm test` and `npm run budget`. Install the Chromium and WebKit engines when setting up a new machine.

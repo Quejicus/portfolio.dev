@@ -13,7 +13,6 @@ const structuredData = {
   name: entry.title, description: entry.summary,
   url: new URL(Astro.url.pathname, Astro.site).href,
   author: { "@type": "Person", name: site.name, url: new URL(homePath, Astro.site).href },
-  dateModified: site.lastUpdated.isoDate,
   inLanguage: locale,
   keywords: entry.stack.join(", "),
 };

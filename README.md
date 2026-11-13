@@ -4,7 +4,7 @@
 
 ![Current portfolio homepage](./public/projects/portfolio_current_screenshot.webp)
 
-A bilingual static Astro site for businesses looking for custom web applications, process automation and data solutions. Spanish remains at `/`; English is available at `/en/`, including all five case studies. Realidad Multipolar, a personal editorial platform in development, leads the project selection, followed by enterprise Airflow and PySpark case studies. Professional experience and credentials support the services; the CV download is available in Experience.
+A bilingual static Astro site for businesses looking for custom web applications, process automation and data solutions. Spanish remains at `/`; English is available at `/en/`, including all five case studies. Realidad Multipolar, a personal editorial platform in development, leads the project selection, followed by the financial calculator and PC optimiser, then the enterprise Airflow and PySpark case studies. Professional experience and credentials support the services; the CV download is available in Experience.
 
 ## Development
 
